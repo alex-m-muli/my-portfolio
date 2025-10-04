@@ -1,162 +1,319 @@
-/* src/components/Navbar/Navbar.css */
+/* ==========================================================================
+   Navbar.css — Final (cleaned & fixed for text-driven mobile hamburger)
+   - Removes old 3-bar icon styles and relies on the text label ("Menu"/"Close")
+   - Label fades & slides when mobile menu opens (hamburger.active)
+   - Label hidden on desktop
+   - Drawer, accessibility, focus states, reduced-motion preserved
+   - Keep palette in sync with Hero (use --accent-a/--accent-b/--accent-c)
+   ========================================================================== */
 
-/* Theme Variables */
-:root {
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-accent: #0077ff;
-  --color-accent-hover: #005ecc;
-  --color-nav-bg: rgba(255, 255, 255, 0.9);
-  --color-shadow: rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] {
-  --color-bg: #0f172a;
-  --color-text: #f1f5f9;
-  --color-accent: #22d3ee;
-  --color-accent-hover: #0ea5e9;
-  --color-nav-bg: rgba(15, 23, 42, 0.9);
-  --color-shadow: rgba(255, 255, 255, 0.1);
-}
-
-/* Navbar Container */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background: var(--color-nav-bg);
-  transition: box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.navbar.scrolled {
-  box-shadow: 0 4px 20px var(--color-shadow);
-}
-
-/* Inner Container */
-.navbar-container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0.8rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Logo */
-.navbar-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.navbar-logo span {
-  color: var(--color-accent);
-}
-
-/* Links */
-.navbar-links {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-}
-
-.navbar-links li a {
-  text-decoration: none;
-  color: var(--color-text);
-  font-weight: 500;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-.navbar-links li a:hover {
-  color: var(--color-accent);
-}
-
-/* Contact Button */
-.contact-btn {
-  padding: 0.5rem 1rem;
-  background: var(--color-accent);
-  color: #fff !important;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-}
-
-.contact-btn:hover {
-  background: var(--color-accent-hover);
-}
-
-/* Actions (theme + hamburger) */
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-/* Theme Toggle */
-.theme-toggle {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-/* Hamburger Menu */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-}
-
-.hamburger span {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: var(--color-text);
-  border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* Active Hamburger */
-.hamburger.active span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .navbar-links {
-    position: absolute;
-    top: 70px;
+/* ------------------------
+   THEME / LAYOUT VARIABLES
+   ------------------------ */
+   :root {
+    --nav-height: 68px;
+    --nav-padding-x: 1.25rem;
+    --max-width: 1100px;
+  
+    /* Palette */
+    --accent-a: #7c4dff;
+    --accent-b: #4fc3f7;
+    --accent-c: #00e676;
+  
+    --bg-glass: rgba(11, 18, 32, 0.36);
+    --bg-glass-scrolled: rgba(6, 10, 25, 0.82);
+  
+    --text: #eaf2ff;
+    --muted: rgba(234,242,255,0.9);
+  
+    --focus: rgba(79,195,247,0.12);
+  
+    --nav-transition: 240ms;
+  }
+  
+  /* ------------------------
+     NAVBAR (fixed top; glass look)
+     ------------------------ */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
     right: 0;
-    background: var(--color-bg);
-    flex-direction: column;
-    width: 200px;
-    padding: 1rem;
-    gap: 1rem;
-    box-shadow: 0 4px 20px var(--color-shadow);
-    border-radius: 8px;
-    transform: translateY(-20px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .navbar-links.open {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-
-  .hamburger {
+    height: var(--nav-height);
     display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--nav-padding-x);
+    z-index: 1200;
+  
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  
+    transition: background-color var(--nav-transition) ease, box-shadow var(--nav-transition) ease, transform var(--nav-transition) ease;
   }
-}
+  
+  .navbar.scrolled {
+    background: var(--bg-glass-scrolled);
+    box-shadow: 0 12px 40px rgba(2,6,23,0.6);
+  }
+  
+  /* ------------------------
+     INNER CONTAINER (layout)
+     ------------------------ */
+  .navbar-container {
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  /* ------------------------
+     BRAND / LOGO
+     ------------------------ */
+  .navbar-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 800;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    letter-spacing: -0.01em;
+  }
+  
+  .navbar-logo:hover,
+  .navbar-logo:focus { color: var(--accent-b); outline: none; }
+  
+  .navbar-logo .accent-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, var(--accent-a), var(--accent-b) 60%, var(--accent-c));
+    box-shadow: 0 6px 18px rgba(79,195,247,0.08);
+  }
+  
+  /* ------------------------
+     NAV LINKS (desktop)
+     ------------------------ */
+  .navbar-links {
+    display: flex;
+    gap: 1.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+  
+  .navbar-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.98rem;
+    padding: 8px 10px;
+    border-radius: 10px;
+    transition: color 180ms ease, background 180ms ease, transform 160ms ease;
+  }
+  
+  .navbar-links a:hover,
+  .navbar-links a:focus {
+    color: var(--text);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  
+  /* desktop underline micro-interaction */
+  @media (min-width: 921px) {
+    .navbar-links a {
+      position: relative;
+      isolation: isolate;
+    }
+    .navbar-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: transform 260ms cubic-bezier(.2,.9,.3,1);
+      border-radius: 6px;
+      opacity: 0.95;
+    }
+    .navbar-links a:hover::after,
+    .navbar-links a:focus::after {
+      transform: scaleX(1);
+    }
+  }
+  
+  /* ------------------------
+     CONTACT CTA
+     ------------------------ */
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(90deg, var(--accent-a), var(--accent-b) 60%, var(--accent-c));
+    color: #04060a;
+    box-shadow: 0 10px 30px rgba(79,195,247,0.08);
+    transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms ease;
+  }
+  .contact-btn:hover,
+  .contact-btn:focus {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 46px rgba(79,195,247,0.14);
+  }
+  
+  /* ------------------------
+     NAVBAR ACTIONS (right)
+     ------------------------ */
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  
+  .navbar-actions button,
+  .navbar-actions a {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* accessible focus-visible */
+  .navbar a:focus-visible,
+  .navbar button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 6px var(--focus);
+    border-radius: 8px;
+  }
+  
+  /* ------------------------
+     HAMBURGER (mobile) — TEXT-BASED
+     - cleaned: no 3-bar icon visuals, purely text-driven label
+     - larger tap target for accessibility
+     ------------------------ */
+  .hamburger {
+    display: none;               /* default hidden on desktop */
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    padding: 10px 12px;          /* generous hit area */
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--muted);
+    transition: color 200ms ease, transform 200ms ease, opacity 200ms ease;
+    z-index: 1300;
+  }
+  
+  /* The visible label (Menu / Close) — text set by Navbar.jsx */
+  .hamburger .hamburger-label {
+    display: inline-block;
+    color: var(--muted);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 220ms ease, transform 220ms ease, color 180ms ease;
+    user-select: none;
+    pointer-events: none; /* purely visual */
+  }
+  
+  /* When the hamburger button is active (menu open) show label as "Close" */
+  .hamburger.active .hamburger-label {
+    opacity: 1;
+    transform: translateY(0);
+    color: var(--text);
+  }
+  
+  /* When closed but hovered, slightly brighten label (hint) */
+  .hamburger:hover .hamburger-label,
+  .hamburger:focus .hamburger-label {
+    opacity: 1;
+    transform: translateY(0);
+    color: var(--text);
+  }
+  
+  /* ------------------------
+     MOBILE / RESPONSIVE LAYOUT (drawer)
+     ------------------------ */
+  @media (max-width: 920px) {
+    /* show the hamburger as a textual control on mobile */
+    .hamburger {
+      display: inline-flex;
+    }
+  
+    /* mobile label is visible inline (initially hidden until hover/active shows it) */
+    .hamburger .hamburger-label {
+      display: inline-block;
+    }
+  
+    /* Slide-down full-width panel (below navbar) */
+    .navbar-links {
+      position: fixed;
+      inset: calc(var(--nav-height)) 0 0 0; /* top = nav height; full width */
+      height: calc(100vh - var(--nav-height));
+      width: 100%;
+      background: linear-gradient(180deg, rgba(6,10,25,0.98), rgba(11,18,32,0.98));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.6rem;
+      padding: 2.75rem 1.25rem;
+      transform: translateY(-6%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 300ms cubic-bezier(.2,.9,.3,1), opacity 300ms ease;
+      z-index: 1200;
+    }
+  
+    /* open state */
+    .navbar-links.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  
+    /* mobile sizing */
+    .navbar-links a {
+      font-size: 1.25rem;
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 10px;
+    }
+  
+    .contact-btn { padding: 12px 22px; font-size: 1.05rem; }
+  }
+  
+  /* ------------------------
+     REDUCED MOTION
+     ------------------------ */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+  
+  /* ------------------------
+     SMALL SCREEN TWEAKS
+     ------------------------ */
+  @media (max-width: 420px) {
+    .navbar-container { gap: 0.5rem; padding-left: 0.9rem; padding-right: 0.9rem; }
+    .navbar-logo { font-size: 1rem; }
+    .contact-btn { padding: 10px 14px; font-size: 0.95rem; }
+  }
+  
