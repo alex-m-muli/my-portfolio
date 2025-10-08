@@ -1,0 +1,127 @@
+/* src/components/Experience/Experience.css
+   ------------------------------------------------------------------
+   Experience Section — God-tier timeline stylesheet
+   - Timeline glow, smooth entry animations, responsive perfection
+   - Matches site palette (use CSS variables if available from global styles)
+   - Accessibility: sufficient contrast, focus-visible, reduced-motion support
+   - Performance: GPU friendly transforms, minimal repaints
+   ------------------------------------------------------------------ */
+
+   :root{
+    --exp-bg-start: #f5f9ff;
+    --exp-bg-end: #eaf2ff;
+    --accent: #3b82f6; /* blue */
+    --accent-strong: #2563eb;
+    --muted-text: #475569;
+    --surface: #ffffff;
+    --glow: rgba(59,130,246,0.18);
+  }
+  
+  .experience-section{
+    background: linear-gradient(180deg, var(--exp-bg-start) 0%, var(--exp-bg-end) 100%);
+    color: #0b1b2b;
+    padding: 6.5rem 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Section header */
+  .experience-header{ text-align:center; max-width:1100px; margin:0 auto 2.5rem; }
+  .experience-header h2{ font-size:2.4rem; margin:0; color:var(--accent-strong); font-weight:800; }
+  .experience-header p{ margin:0.6rem 0 0; color:var(--muted-text); font-size:1.05rem; }
+  
+  /* Timeline wrapper */
+  .timeline{ max-width:1100px; margin:2.5rem auto 0; position:relative; padding-left:32px; }
+  
+  /* vertical line */
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:12px;
+    top:0;
+    bottom:0;
+    width:4px;
+    background: linear-gradient(180deg, rgba(59,130,246,0.35), rgba(37,99,235,0.15));
+    border-radius:4px;
+    box-shadow: 0 8px 30px var(--glow) inset;
+  }
+  
+  /* Individual item */
+  .timeline-item{ position:relative; margin-bottom:2.5rem; display:flex; gap:1rem; align-items:flex-start; }
+  
+  /* Dot marker */
+  .timeline-item .dot{
+    position:absolute;
+    left:-2px; /* align with vertical line */
+    top:3px;
+    width:18px; height:18px; border-radius:50%;
+    background:var(--surface);
+    border:4px solid var(--accent);
+    box-shadow: 0 0 18px rgba(59,130,246,0.22);
+    transition: transform 260ms cubic-bezier(.2,.9,.3,1), box-shadow 260ms ease;
+  }
+  
+  /* Content box */
+  .timeline-item .content{
+    background:var(--surface);
+    padding:1.1rem 1.25rem;
+    border-radius:12px;
+    box-shadow: 0 8px 28px rgba(2,6,23,0.06);
+    flex:1;
+    transform-origin: left top;
+  }
+  
+  .content h3{ margin:0 0 0.25rem; font-size:1.2rem; color:#07143a; font-weight:800; }
+  .content .date{ display:block; font-size:0.92rem; color:var(--muted-text); margin-bottom:0.6rem; }
+  .content p{ margin:0 0 0.75rem; color:#10203a; line-height:1.7; }
+  .content ul{ margin:0 0 0 1.1rem; padding:0; color:#16324a; }
+  .content ul li{ margin-bottom:0.45rem; }
+  
+  /* Hover/Focus states */
+  .timeline-item:hover .dot,
+  .timeline-item:focus-within .dot{ transform: scale(1.08); box-shadow: 0 0 28px rgba(37,99,235,0.35); }
+  
+  .timeline-item:hover .content,
+  .timeline-item:focus-within .content{ box-shadow: 0 14px 40px rgba(2,6,23,0.09); transform: translateY(-4px); }
+  
+  /* Accent highlight inside content */
+  .content strong{ color:var(--accent-strong); }
+  .content em{ color:var(--accent); font-style:normal; font-weight:700; }
+  
+  /* Entry animation */
+  @keyframes slideFadeUp{ from{ opacity:0; transform: translateY(16px); } to{ opacity:1; transform: translateY(0); } }
+  .timeline-item{ animation: slideFadeUp 620ms ease both; }
+  
+  /* Staggered appearance for visual polish (optional JS enhancement later) */
+  .timeline-item:nth-child(1){ animation-delay: 0ms; }
+  .timeline-item:nth-child(2){ animation-delay: 80ms; }
+  .timeline-item:nth-child(3){ animation-delay: 160ms; }
+  .timeline-item:nth-child(4){ animation-delay: 240ms; }
+  .timeline-item:nth-child(5){ animation-delay: 320ms; }
+  
+  /* Responsive adjustments */
+  @media (max-width: 920px){
+    .timeline{ padding-left:20px; }
+    .timeline::before{ left:8px; width:3px; }
+    .timeline-item{ gap:0.8rem; }
+    .timeline-item .dot{ left:-6px; width:14px; height:14px; border-width:3px; }
+    .content h3{ font-size:1.1rem; }
+  }
+  
+  @media (max-width: 560px){
+    .experience-section{ padding:3.5rem 1rem; }
+    .timeline{ padding-left:12px; }
+    .timeline::before{ left:6px; }
+    .timeline-item{ flex-direction:column; }
+    .timeline-item .dot{ position:relative; left:0; margin-bottom:8px; }
+    .content{ width:100%; }
+  }
+  
+  /* Accessibility: reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .timeline-item, .timeline-item *{ animation: none !important; transition: none !important; }
+  }
+  
+  /* Small utility */
+  .content a{ color:var(--accent-strong); text-decoration:underline; }
+  

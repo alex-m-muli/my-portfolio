@@ -1,0 +1,117 @@
+/* src/components/Skills/Skills.css */
+/* God-tier Skills section styling
+   - Gradient backgrounds consistent with Hero + About
+   - Card-based skill display with micro animations
+   - Responsive, mobile-first design
+   - Structured spacing, typography, and hover effects
+   - Ready for SEO-friendly deployment
+*/
+
+.skills-section {
+  position: relative;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #eef5ff 0%, #d0e4ff 100%); /* expert gradient */
+  color: #1a1a1a;
+  text-align: center;
+  z-index: 10;
+}
+
+.skills-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0a2a66;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.skills-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  margin: 0.75rem auto 0;
+  border-radius: 2px;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.skill-card {
+  flex: 1 1 200px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(59, 130, 246, 0.2);
+  background: linear-gradient(145deg, #f0f7ff, #e0f0ff);
+}
+
+.skill-icon {
+  font-size: 2.5rem;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.skill-card:hover .skill-icon {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.skill-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0a2a66;
+  margin-bottom: 0.5rem;
+}
+
+.skill-level {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #555;
+}
+
+/* Separator / Decorative underline for cards */
+.skill-card::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  margin: 1rem auto 0;
+  border-radius: 2px;
+}
+
+/* Responsive mobile adjustments */
+@media (max-width: 768px) {
+  .skills-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .skill-card {
+    width: 90%;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

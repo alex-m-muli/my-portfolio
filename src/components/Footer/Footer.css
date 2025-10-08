@@ -1,0 +1,155 @@
+/* 🌌 Footer.css — God-tier polished version */
+
+/* Root Styles */
+:root {
+  --footer-bg: rgba(15, 17, 23, 0.9);
+  --footer-glow: rgba(0, 255, 255, 0.3);
+  --footer-text: #e5e7eb;
+  --footer-accent: #00ffff;
+  --footer-hover: #80ffff;
+  --transition: 0.3s ease-in-out;
+}
+
+/* 🌠 Footer Container */
+.footer-container {
+  background: var(--footer-bg);
+  backdrop-filter: blur(15px) saturate(160%);
+  -webkit-backdrop-filter: blur(15px) saturate(160%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--footer-text);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Inner Content */
+.footer-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Text and Email */
+.footer-text {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.3px;
+  color: var(--footer-text);
+}
+
+.footer-email {
+  font-size: 1rem;
+  color: var(--footer-accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  user-select: text;
+}
+
+.email-icon {
+  color: var(--footer-accent);
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* ✉️ Email Link */
+.footer-link {
+  color: var(--footer-accent);
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  transition: color var(--transition), text-shadow var(--transition);
+  user-select: text;
+}
+
+.footer-link:hover {
+  color: var(--footer-hover);
+  text-shadow: 0 0 8px var(--footer-hover);
+}
+
+/* ⚡ Glowing Accent Line */
+.footer-glow-line {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--footer-accent),
+    transparent
+  );
+  margin-top: 2rem;
+  animation: glow-line 3s linear infinite;
+}
+
+@keyframes glow-line {
+  0% {
+    opacity: 0.2;
+    transform: translateX(-50%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(50%);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateX(-50%);
+  }
+}
+
+/* 🌕 Floating Back-to-Top Orb */
+.back-to-top {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #00ffff, #0077ff);
+  color: white;
+  border: none;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  z-index: 999;
+  animation: float 3s ease-in-out infinite;
+}
+
+.back-to-top:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+/* 🪶 Floating Animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  .footer-text {
+    font-size: 0.95rem;
+  }
+  .footer-email {
+    font-size: 0.9rem;
+    flex-direction: column;
+  }
+  .back-to-top {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.1rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}

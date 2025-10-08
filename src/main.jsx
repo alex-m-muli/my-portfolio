@@ -5,9 +5,12 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faArrowUp, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import App from "./App";
 import "./styles/global.css"; 
 import { HelmetProvider } from "react-helmet-async";
+library.add(faArrowUp, faEnvelope);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -11,12 +11,12 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "./components/Navbar/Navbar";
 import Hero from "./components/Hero/Hero";
 import About from "./components/About/About";
-// import Skills from "./components/Skills/Skills";
-// import Projects from "./components/Projects/Projects";
-// import Experience from "./components/Experience/Experience";
-// import Testimonials from "./components/Testimonials/Testimonials";
-// import Contact from "./components/Contact/Contact";
-// import Footer from "./components/Footer/Footer";
+import Skills from "./components/Skills/Skills";
+import Projects from "./components/Projects/Projects";
+import Experience from "./components/Experience/Experience";
+import Testimonials from "./components/Testimonials/Testimonials";
+import Contact from "./components/Contact/Contact";
+import Footer from "./components/Footer/Footer";
 
 import "./styles/global.css";
 
@@ -76,15 +76,25 @@ const App = () => {
       {/* ✅ About Section */}
       <About />
 
-      {/* 🚧 Future Sections (uncomment as you build) */}
-      {/*
+      {/* ✅ Skills Section */}
       <Skills />
+
+      {/* ✅ Projects Section */}
       <Projects />
+
+      {/* ✅ Experience Section */}
       <Experience />
+
+      {/* ✅ Testimonials Section */}
       <Testimonials />
+
+      {/* ✅ Contact Section */}
       <Contact />
+
+      {/* 🚧 Future Sections (uncomment as you build) */}
+
+      {/* ✅ Footer Section */}
       <Footer />
-      */}
     </>
   );
 };
