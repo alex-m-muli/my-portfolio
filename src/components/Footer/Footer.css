@@ -75,13 +75,10 @@
   width: 100%;
   height: 2px;
   background: linear-gradient(
-    90deg,
-    transparent,
-    var(--footer-accent),
-    transparent
+    90deg,transparent, #f58529, #dd2a7b, #8134af, #515bd4,transparent
   );
   margin-top: 2rem;
-  animation: glow-line 3s linear infinite;
+  animation: glow-line 10s linear infinite;
 }
 
 @keyframes glow-line {

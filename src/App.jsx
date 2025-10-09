@@ -76,14 +76,14 @@ const App = () => {
       {/* ✅ About Section */}
       <About />
 
+      {/* ✅ Experience Section */}
+      <Experience />
+
       {/* ✅ Skills Section */}
       <Skills />
 
       {/* ✅ Projects Section */}
       <Projects />
-
-      {/* ✅ Experience Section */}
-      <Experience />
 
       {/* ✅ Testimonials Section */}
       <Testimonials />

@@ -1,52 +1,27 @@
-/* src/components/Testimonials/Testimonials.css
-   -------------------------------------------------------------------------
-   Testimonials Section — God-tier (updated)
-   - Smooth transitions that align with Framer Motion animations
-   - Subtle glowing Prev / Next navigation controls inside each card
-   - Mobile-first, touch-friendly adjustments and accessible controls
-   - Visual language consistent with Hero & Experience: blue-cyan accents,
-     glassy surfaces, soft glow, and high contrast text
-   - Well-documented for maintainability
+/* File: src/components/Testimonials/Testimonials.css */
+/* -------------------------------------------------------------------------
+   Testimonials Section — Production CSS
    ------------------------------------------------------------------------- */
 
-/* ------------------------
-   Theme / variables (local fallbacks)
-   ------------------------ */
    :root {
     --max-width: 1100px;
-  
-    /* Section background (dark, complementary to Hero) */
     --bg-start: #0f1724;
     --bg-end: #071427;
-  
-    /* Card surface / borders */
     --card-surface: rgba(255,255,255,0.03);
     --card-border: rgba(255,255,255,0.05);
-  
-    /* Typography */
     --text: #eaf2ff;
     --muted: rgba(234,242,255,0.78);
-  
-    /* Accent palette (matches other sections) */
     --accent-a: #7c4dff;
     --accent-b: #4fc3f7;
     --accent-strong: #3b82f6;
-  
-    /* Glow and UI */
     --glow: rgba(79,195,247,0.12);
     --card-radius: 14px;
-  
-    /* Controls */
     --control-bg: rgba(255,255,255,0.03);
     --control-border: rgba(255,255,255,0.06);
-  
     --transition-fast: 180ms;
     --transition-medium: 320ms;
   }
   
-  /* ------------------------
-     Section base
-     ------------------------ */
   .testimonials-section {
     background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
     color: var(--text);
@@ -55,7 +30,6 @@
     overflow: hidden;
   }
   
-  /* Header */
   .testimonials-header {
     max-width: var(--max-width);
     margin: 0 auto 2rem;
@@ -66,22 +40,13 @@
     margin: 0 0 0.5rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    /* gradient text using accent colors */
     background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .testimonials-header p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 1.03rem;
-  }
+  .testimonials-header p { margin: 0; color: var(--muted); font-size: 1.03rem; }
   
-  /* ------------------------
-     Grid layout for cards
-     - auto-fit to create responsive columns
-     ------------------------ */
   .testimonials-grid {
     max-width: var(--max-width);
     margin: 2rem auto 0;
@@ -92,17 +57,12 @@
     padding-inline: 0.25rem;
   }
   
-  /* ------------------------
-     Card base (kept visually similar to prior design)
-     - cards are semi-glass surfaces with subtle borders and shadows
-     - isolation: isolate ensures glows don't bleed into siblings
-     ------------------------ */
   .testimonial-card {
     position: relative;
     background: var(--card-surface);
     border: 1px solid var(--card-border);
     border-radius: var(--card-radius);
-    padding: 1.4rem 1.35rem 2.4rem; /* extra bottom space for controls */
+    padding: 1.4rem 1.35rem 2.4rem;
     min-height: 180px;
     display: flex;
     flex-direction: column;
@@ -115,179 +75,56 @@
     overflow: visible;
   }
   
-  /* card hover depth */
-  .testimonial-card:hover,
-  .testimonial-card:focus-within {
+  .testimonial-card:hover, .testimonial-card:focus-within {
     transform: translateY(-8px) scale(1.01);
     box-shadow: 0 20px 60px rgba(2,6,23,0.72), 0 0 40px var(--glow);
     border-color: rgba(127,179,255,0.16);
   }
   
-  /* Quote icon */
-  .quote-icon {
-    font-size: 1.05rem;
-    color: var(--accent-b);
-    opacity: 0.98;
-  }
+  .quote-icon { font-size: 1.05rem; color: var(--accent-b); opacity: 0.98; }
+  .feedback { margin: 0; color: #e8f6ff; line-height: 1.6; font-size: 0.98rem; flex: 1 1 auto; transition: opacity var(--transition-fast) ease, transform var(--transition-fast) ease; }
   
-  /* Feedback / text area */
-  .feedback {
-    margin: 0;
-    color: #e8f6ff;
-    line-height: 1.6;
-    font-size: 0.98rem;
-    flex: 1 1 auto;
-    transition: opacity var(--transition-fast) ease, transform var(--transition-fast) ease;
-  }
+  .author { display:flex; flex-direction: column; gap: 0.12rem; }
+  .author h4 { margin: 0; font-size: 1rem; font-weight: 700; color: var(--accent-a); }
+  .author span { font-size: 0.9rem; color: var(--muted); }
   
-  /* Author block and meta */
-  .author {
-    display: flex;
-    flex-direction: column;
-    gap: 0.12rem;
-  }
-  .author h4 {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--accent-a);
-  }
-  .author span {
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-  
-  /* Stars */
-  .stars {
-    display: flex;
-    gap: 6px;
-    margin-top: 0.3rem;
-  }
+  .stars { display:flex; gap:6px; margin-top:0.3rem; }
   .stars svg { color: #ffd66b; opacity: 0.95; }
   
-  /* ------------------------
-     Navigation controls (Prev / Next)
-     - visually subtle; placed at bottom-right of each card
-     - large enough for touch targets on mobile
-     - keyboard accessible
-     ------------------------ */
-  .testimonial-controls {
-    position: absolute;
-    right: 12px;
-    bottom: 10px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-  }
+  .testimonial-controls { position: absolute; right: 12px; bottom: 10px; display:flex; gap:8px; align-items:center; justify-content:center; }
   
-  /* Core nav button style */
   .nav-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 6px;
-    border-radius: 10px;
-    background: var(--control-bg);
-    border: 1px solid var(--control-border);
-    color: var(--text);
-    cursor: pointer;
-    transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease, background var(--transition-fast) ease;
-    font-size: 0.95rem;
-    line-height: 1;
+    display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; padding:6px; border-radius:10px;
+    background: var(--control-bg); border: 1px solid var(--control-border); color: var(--text); cursor: pointer;
+    transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease, background var(--transition-fast) ease; font-size:0.95rem; line-height:1;
   }
   
-  /* Larger touch target on small screens */
-  @media (max-width: 560px) {
-    .nav-btn { width: 48px; height: 48px; }
-  }
+  @media (max-width: 560px) { .nav-btn { width:48px; height:48px; } }
   
-  /* Hover / focus states for controls */
-  .nav-btn:hover,
-  .nav-btn:focus {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(37,99,235,0.12), 0 0 18px var(--glow);
-    background: linear-gradient(90deg, rgba(124,77,255,0.06), rgba(79,195,247,0.06));
-    outline: none;
-  }
-  
-  /* Slightly different tint for prev/next for affordance (subtle) */
+  .nav-btn:hover, .nav-btn:focus { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(37,99,235,0.12), 0 0 18px var(--glow); background: linear-gradient(90deg, rgba(124,77,255,0.06), rgba(79,195,247,0.06)); outline: none; }
   .prev-btn { filter: hue-rotate(-10deg) brightness(0.98); }
   .next-btn { filter: hue-rotate(6deg) brightness(1.02); }
   
-  /* Focus-visible for keyboard users */
-  .nav-btn:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 6px rgba(79,195,247,0.12);
-    border-radius: 10px;
-  }
+  .nav-btn:focus-visible { outline:none; box-shadow: 0 0 0 6px rgba(79,195,247,0.12); border-radius:10px; }
   
-  /* ------------------------
-     Entrance & swap animations (CSS complements Framer Motion)
-     - These are intentionally subtle; Framer handles main enter/exit.
-     - CSS handles fallback + small micro-interactions
-     ------------------------ */
-  .testimonial-card .testimonial-content {
-    will-change: transform, opacity;
-    transition: opacity 420ms cubic-bezier(.2,.9,.3,1), transform 420ms cubic-bezier(.2,.9,.3,1);
-  }
+  .testimonial-card .testimonial-content { will-change: transform, opacity; transition: opacity 420ms cubic-bezier(.2,.9,.3,1), transform 420ms cubic-bezier(.2,.9,.3,1); }
   
-  /* Decorative bottom gradient line */
-  .testimonial-card::after {
-    content: "";
-    position: absolute;
-    left: 16px;
-    right: 16px;
-    bottom: 6px;
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, rgba(124,77,255,0.12), rgba(79,195,247,0.10));
-    opacity: 0.95;
-    pointer-events: none;
-  }
+  .testimonial-card::after { content: ""; position:absolute; left:16px; right:16px; bottom:6px; height:2px; border-radius:2px; background: linear-gradient(90deg, rgba(124,77,255,0.12), rgba(79,195,247,0.10)); opacity:0.95; pointer-events:none; }
   
-  /* ------------------------
-     Responsive: grid & layout tweaks for mobile
-     - Ensure cards expand properly and controls remain reachable
-     ------------------------ */
   @media (max-width: 920px) {
-    .testimonials-grid {
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-    }
-    .testimonial-card {
-      padding-bottom: 3rem; /* make more space for larger nav buttons */
-    }
-    .testimonial-controls {
-      right: 14px;
-      bottom: 12px;
-    }
+    .testimonials-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .testimonial-card { padding-bottom: 3rem; }
+    .testimonial-controls { right:14px; bottom:12px; }
   }
   
   @media (max-width: 560px) {
     .testimonials-section { padding: 3.5rem 0.9rem; }
     .testimonials-header h2 { font-size: 1.9rem; }
-    .testimonial-controls { right: 10px; bottom: 10px; gap: 6px; }
-    .testimonial-card { padding: 1.15rem; min-height: 150px; }
+    .testimonial-controls { right:10px; bottom:10px; gap:6px; }
+    .testimonial-card { padding:1.15rem; min-height:150px; }
   }
   
-  /* ------------------------
-     Accessibility: reduced motion preference
-     - Turn off non-essential transitions/animations for users who prefer reduced motion
-     ------------------------ */
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; animation: none !important; }
-    .testimonial-card { transform: none !important; box-shadow: none !important; }
-  }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } .testimonial-card { transform:none !important; box-shadow:none !important; } }
   
-  /* ------------------------
-     Utility: hover disabled on touch devices for nicer UX
-     - Some mobile browsers still trigger :hover; use pointer media query
-     ------------------------ */
-  @media (hover: none) {
-    .testimonial-card:hover { transform: none; box-shadow: 0 6px 22px rgba(2,6,23,0.6); }
-    .nav-btn:hover { transform: none; box-shadow: none; }
-  }
+  @media (hover: none) { .testimonial-card:hover { transform:none; box-shadow: 0 6px 22px rgba(2,6,23,0.6); } .nav-btn:hover { transform:none; box-shadow:none; } }
   

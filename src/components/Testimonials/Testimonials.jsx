@@ -1,5 +1,9 @@
-// src/components/Testimonials/Testimonials.jsx
-import React, { useEffect, useRef, useState } from "react";
+// File: src/components/Testimonials/Testimonials.jsx
+// Final production-ready Testimonials component
+// - Preserves all class names and markup
+// - Minor polishing: stable cleanup, ARIA, reduced-motion support, and concise comments
+
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -10,22 +14,7 @@ import {
 } from "react-icons/fa";
 import "./Testimonials.css";
 
-/**
- * Testimonials
- * - God-tier rotating testimonial grid
- * - Each card cycles independently (its own timer)
- * - Hover / touch to pause (hold-to-stop) with smooth resume
- * - Manual Prev/Next controls per card
- * - SEO + Open Graph via react-helmet-async
- *
- * Notes:
- * - Intervals and timeouts are stored in refs to ensure stable cleanup.
- * - Animations are handled by Framer Motion (AnimatePresence) while CSS
- *   provides micro-interactions and fallbacks.
- */
 const Testimonials = () => {
-  // Testimonials grouped into cards; each group becomes one visually-styled card
-  // Add or modify testimonials here — maintain shape: { name, role, feedback, optional avatar }
   const testimonials = [
     [
       {
@@ -71,115 +60,102 @@ const Testimonials = () => {
     ],
   ];
 
-  // Track which testimonial (index) is currently active for each card
-  const [indexes, setIndexes] = useState(() =>
-    testimonials.map(() => 0)
-  );
-
-  // Pause state - when true, auto-rotation stops for all cards
+  // index state per card
+  const [indexes, setIndexes] = useState(() => testimonials.map(() => 0));
   const [paused, setPaused] = useState(false);
 
-  // Refs to hold interval IDs (per card) and resume timeout (single)
+  // refs for intervals and resume timer
   const intervalsRef = useRef([]);
   const resumeTimeoutRef = useRef(null);
 
-  // Constants
-  const BASE_INTERVAL_MS = 6000; // base auto-rotate per card
-  const STAGGER_MS = 1500; // stagger start times between cards
-  const RESUME_DELAY_MS = 800; // delay before resuming after hold
+  // config
+  const BASE_INTERVAL_MS = 6000;
+  const STAGGER_MS = 1200;
+  const RESUME_DELAY_MS = 900;
 
-  // Utility: clear all intervals
-  const clearAllIntervals = () => {
+  // clear intervals helper
+  const clearAllIntervals = useCallback(() => {
     intervalsRef.current.forEach((id) => {
       if (id) clearInterval(id);
     });
     intervalsRef.current = [];
-  };
+  }, []);
 
-  // Utility: start rotation interval for a single card index
-  const startIntervalForCard = (cardIdx) => {
-    // clear existing interval for that card
-    if (intervalsRef.current[cardIdx]) {
-      clearInterval(intervalsRef.current[cardIdx]);
+  // start interval for a single card
+  const startIntervalForCard = useCallback(
+    (cardIdx) => {
+      if (intervalsRef.current[cardIdx]) {
+        clearInterval(intervalsRef.current[cardIdx]);
+      }
+
+      const interval = setInterval(() => {
+        setIndexes((prev) => {
+          const next = [...prev];
+          next[cardIdx] = (next[cardIdx] + 1) % testimonials[cardIdx].length;
+          return next;
+        });
+      }, BASE_INTERVAL_MS);
+
+      intervalsRef.current[cardIdx] = interval;
+    },
+    [BASE_INTERVAL_MS, testimonials]
+  );
+
+  // start all intervals (staggered) 
+  const startAllIntervals = useCallback(
+    (stagger = true) => {
+      clearAllIntervals();
+      testimonials.forEach((_, idx) => {
+        if (stagger) {
+          setTimeout(() => startIntervalForCard(idx), idx * STAGGER_MS);
+        } else {
+          startIntervalForCard(idx);
+        }
+      });
+    },
+    [clearAllIntervals, startIntervalForCard, testimonials]
+  );
+
+  // lifecycle: start/stop intervals according to paused + cleanup
+  useEffect(() => {
+    // respect reduced-motion: don't start intervals if user prefers reduced-motion
+    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      // reveal zero-motion state (indices still default to 0)
+      clearAllIntervals();
+      return () => {};
     }
 
-    const interval = setInterval(() => {
-      setIndexes((prev) => {
-        const next = [...prev];
-        next[cardIdx] = (next[cardIdx] + 1) % testimonials[cardIdx].length;
-        return next;
-      });
-    }, BASE_INTERVAL_MS);
-
-    intervalsRef.current[cardIdx] = interval;
-  };
-
-  // Start intervals for all cards (with optional staggered start)
-  const startAllIntervals = (stagger = true) => {
-    clearAllIntervals();
-    testimonials.forEach((_, idx) => {
-      // stagger the first tick by scheduling the interval start slightly offset
-      if (stagger) {
-        // Use setTimeout to stagger the creation of each interval so their ticks are offset
-        setTimeout(() => startIntervalForCard(idx), idx * STAGGER_MS);
-      } else {
-        startIntervalForCard(idx);
-      }
-    });
-  };
-
-  // Setup auto-rotation intervals on mount and whenever paused changes
-  useEffect(() => {
-    // If paused, ensure intervals are cleared
     if (paused) {
       clearAllIntervals();
-      return;
+      return undefined;
     }
 
-    // Start intervals when not paused
     startAllIntervals(true);
 
-    // Cleanup on unmount
     return () => {
       clearAllIntervals();
       if (resumeTimeoutRef.current) {
         clearTimeout(resumeTimeoutRef.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paused]); // only re-run when paused toggles
+  }, [paused, clearAllIntervals, startAllIntervals]);
 
-  // Manual navigation: previous testimonial for a specific card
+  // manual navigation
   const handlePrev = (cardIndex) => {
     setIndexes((prev) =>
-      prev.map((val, idx) =>
-        idx === cardIndex
-          ? (val - 1 + testimonials[idx].length) % testimonials[idx].length
-          : val
-      )
+      prev.map((val, idx) => (idx === cardIndex ? (val - 1 + testimonials[idx].length) % testimonials[idx].length : val))
     );
-    // Reset that card's interval so user has time to read
-    if (!paused) {
-      startIntervalForCard(cardIndex);
-    }
+    if (!paused) startIntervalForCard(cardIndex);
   };
 
-  // Manual navigation: next testimonial for a specific card
   const handleNext = (cardIndex) => {
-    setIndexes((prev) =>
-      prev.map((val, idx) =>
-        idx === cardIndex ? (val + 1) % testimonials[idx].length : val
-      )
-    );
-    // Reset that card's interval so user has time to read
-    if (!paused) {
-      startIntervalForCard(cardIndex);
-    }
+    setIndexes((prev) => prev.map((val, idx) => (idx === cardIndex ? (val + 1) % testimonials[idx].length : val)));
+    if (!paused) startIntervalForCard(cardIndex);
   };
 
-  // Pause helpers (with optional resume delay)
+  // pause/resume helpers
   const pauseAll = () => {
-    // Cancel any pending resume
     if (resumeTimeoutRef.current) {
       clearTimeout(resumeTimeoutRef.current);
       resumeTimeoutRef.current = null;
@@ -188,23 +164,18 @@ const Testimonials = () => {
   };
 
   const resumeAll = (delay = RESUME_DELAY_MS) => {
-    // If immediate resume requested, just unpause
     if (delay === 0) {
       setPaused(false);
       return;
     }
-    // Clear any existing resume timeout then schedule a new one
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current);
-    }
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     resumeTimeoutRef.current = setTimeout(() => {
       setPaused(false);
       resumeTimeoutRef.current = null;
     }, delay);
   };
 
-  // Accessibility: handle keyboard arrow navigation when focus is inside card
-  // (Left/Right navigate that specific card)
+  // keyboard nav inside a card
   const handleKeyNav = (e, cardIndex) => {
     if (e.key === "ArrowLeft") {
       e.preventDefault();
@@ -215,9 +186,9 @@ const Testimonials = () => {
     }
   };
 
-  // Framer Motion variants for testimonial swapping
+  // framer motion variants
   const variants = {
-    initial: { opacity: 0, y: 18, scale: 0.996 },
+    initial: { opacity: 0, y: 14, scale: 0.996 },
     animate: { opacity: 1, y: 0, scale: 1 },
     exit: { opacity: 0, y: -12, scale: 0.996 },
     transition: { duration: 0.48, ease: "easeInOut" },
@@ -226,7 +197,6 @@ const Testimonials = () => {
   return (
     <section id="testimonials" className="testimonials-section" aria-label="Testimonials">
       <Helmet>
-        {/* SEO + Open Graph Meta Tags */}
         <title>Testimonials | Alex M. Muli - Fullstack Developer</title>
         <meta
           name="description"
@@ -248,9 +218,7 @@ const Testimonials = () => {
 
       <div className="testimonials-header">
         <h2>What People Say</h2>
-        <p>
-          Feedback from clients, engineers, and leaders who have collaborated with me worldwide.
-        </p>
+        <p>Feedback from clients, engineers, and leaders who have collaborated with me worldwide.</p>
       </div>
 
       <div className="testimonials-grid">
@@ -262,18 +230,15 @@ const Testimonials = () => {
             <motion.div
               key={`card-${cardIndex}`}
               className="testimonial-card"
-              // Pause on hover (desktop)
               onMouseEnter={pauseAll}
               onMouseLeave={() => resumeAll(RESUME_DELAY_MS)}
-              // Pause on touch (mobile); resume after release with slight delay
               onTouchStart={pauseAll}
               onTouchEnd={() => resumeAll(RESUME_DELAY_MS)}
               onKeyDown={(e) => handleKeyNav(e, cardIndex)}
-              tabIndex={0} // card can receive keyboard focus
+              tabIndex={0}
               aria-roledescription="carousel"
               aria-label={`Testimonials carousel card ${cardIndex + 1}`}
             >
-              {/* AnimatePresence lets the testimonial content exit/enter smoothly */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`testimonial-${cardIndex}-${activeIndex}`}
@@ -288,7 +253,7 @@ const Testimonials = () => {
                   <FaQuoteLeft className="quote-icon" aria-hidden="true" />
                   <p className="feedback">“{current.feedback}”</p>
 
-                  <div className="author" aria-hidden="false">
+                  <div className="author">
                     <h4>{current.name}</h4>
                     <span>{current.role}</span>
                   </div>
@@ -301,19 +266,11 @@ const Testimonials = () => {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Controls (Prev / Next) */}
               <div className="testimonial-controls" role="group" aria-label="Testimonial navigation">
                 <button
                   className="nav-btn prev-btn"
                   aria-label={`Previous testimonial for card ${cardIndex + 1}`}
-                  onClick={() => {
-                    handlePrev(cardIndex);
-                    // keep auto-rotation paused briefly after manual action for comfort
-                    if (!paused) {
-                      // restart that card interval to give user time
-                      startIntervalForCard(cardIndex);
-                    }
-                  }}
+                  onClick={() => handlePrev(cardIndex)}
                 >
                   <FaChevronLeft aria-hidden="true" />
                 </button>
@@ -321,12 +278,7 @@ const Testimonials = () => {
                 <button
                   className="nav-btn next-btn"
                   aria-label={`Next testimonial for card ${cardIndex + 1}`}
-                  onClick={() => {
-                    handleNext(cardIndex);
-                    if (!paused) {
-                      startIntervalForCard(cardIndex);
-                    }
-                  }}
+                  onClick={() => handleNext(cardIndex)}
                 >
                   <FaChevronRight aria-hidden="true" />
                 </button>
@@ -340,3 +292,4 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+

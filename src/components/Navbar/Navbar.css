@@ -1,15 +1,10 @@
-/* ==========================================================================
-   Navbar.css — Final (cleaned & fixed for text-driven mobile hamburger)
-   - Removes old 3-bar icon styles and relies on the text label ("Menu"/"Close")
-   - Label fades & slides when mobile menu opens (hamburger.active)
-   - Label hidden on desktop
-   - Drawer, accessibility, focus states, reduced-motion preserved
-   - Keep palette in sync with Hero (use --accent-a/--accent-b/--accent-c)
-   ========================================================================== */
+/* ===============================================================
+   Navbar.css — Final Production Build (with auto-hide)
+   - Preserves all original selectors and variables
+   - Adds .navbar.hidden to hide on scroll down
+   - Adds safe-area inset and subtle transition tweaks
+   =============================================================== */
 
-/* ------------------------
-   THEME / LAYOUT VARIABLES
-   ------------------------ */
    :root {
     --nav-height: 68px;
     --nav-padding-x: 1.25rem;
@@ -31,9 +26,7 @@
     --nav-transition: 240ms;
   }
   
-  /* ------------------------
-     NAVBAR (fixed top; glass look)
-     ------------------------ */
+  /* NAVBAR (fixed top; glass look) */
   .navbar {
     position: fixed;
     top: 0;
@@ -44,6 +37,8 @@
     align-items: center;
     justify-content: center;
     padding: 0 var(--nav-padding-x);
+    /* respect iOS/Android safe area */
+    padding-top: calc(env(safe-area-inset-top, 0) + 0px);
     z-index: 1200;
   
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
@@ -52,6 +47,20 @@
     border-bottom: 1px solid rgba(255,255,255,0.03);
   
     transition: background-color var(--nav-transition) ease, box-shadow var(--nav-transition) ease, transform var(--nav-transition) ease;
+    will-change: transform;
+  }
+  
+  /* AUTO-HIDE: moves navbar out of view when hidden */
+  .navbar.hidden {
+    transform: translateY(calc(-1 * (var(--nav-height) + 8px)));
+    box-shadow: none;
+    /* avoid accidental clicks when hidden */
+    pointer-events: none;
+  }
+  
+  /* When menu is open we force pointer events and visible state from JS, but keep visual polish */
+  .navbar.menu-open {
+    pointer-events: auto;
   }
   
   .navbar.scrolled {
@@ -59,9 +68,7 @@
     box-shadow: 0 12px 40px rgba(2,6,23,0.6);
   }
   
-  /* ------------------------
-     INNER CONTAINER (layout)
-     ------------------------ */
+  /* INNER CONTAINER */
   .navbar-container {
     width: 100%;
     max-width: var(--max-width);
@@ -71,9 +78,7 @@
     gap: 1rem;
   }
   
-  /* ------------------------
-     BRAND / LOGO
-     ------------------------ */
+  /* BRAND / LOGO */
   .navbar-logo {
     display: inline-flex;
     align-items: center;
@@ -97,9 +102,7 @@
     box-shadow: 0 6px 18px rgba(79,195,247,0.08);
   }
   
-  /* ------------------------
-     NAV LINKS (desktop)
-     ------------------------ */
+  /* NAV LINKS (desktop) */
   .navbar-links {
     display: flex;
     gap: 1.1rem;
@@ -152,9 +155,7 @@
     }
   }
   
-  /* ------------------------
-     CONTACT CTA
-     ------------------------ */
+  /* CONTACT CTA */
   .contact-btn {
     display: inline-flex;
     align-items: center;
@@ -178,9 +179,7 @@
     box-shadow: 0 18px 46px rgba(79,195,247,0.14);
   }
   
-  /* ------------------------
-     NAVBAR ACTIONS (right)
-     ------------------------ */
+  /* NAVBAR ACTIONS (right) */
   .navbar-actions {
     display: flex;
     align-items: center;
@@ -202,18 +201,14 @@
     border-radius: 8px;
   }
   
-  /* ------------------------
-     HAMBURGER (mobile) — TEXT-BASED
-     - cleaned: no 3-bar icon visuals, purely text-driven label
-     - larger tap target for accessibility
-     ------------------------ */
+  /* HAMBURGER (mobile) — TEXT-BASED */
   .hamburger {
-    display: none;               /* default hidden on desktop */
+    display: none; /* hidden on desktop */
     align-items: center;
     gap: 0.5rem;
     background: transparent;
     border: none;
-    padding: 10px 12px;          /* generous hit area */
+    padding: 10px 12px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 0.98rem;
@@ -223,7 +218,6 @@
     z-index: 1300;
   }
   
-  /* The visible label (Menu / Close) — text set by Navbar.jsx */
   .hamburger .hamburger-label {
     display: inline-block;
     color: var(--muted);
@@ -231,17 +225,15 @@
     transform: translateY(0);
     transition: opacity 220ms ease, transform 220ms ease, color 180ms ease;
     user-select: none;
-    pointer-events: none; /* purely visual */
+    pointer-events: none;
   }
   
-  /* When the hamburger button is active (menu open) show label as "Close" */
   .hamburger.active .hamburger-label {
     opacity: 1;
     transform: translateY(0);
     color: var(--text);
   }
   
-  /* When closed but hovered, slightly brighten label (hint) */
   .hamburger:hover .hamburger-label,
   .hamburger:focus .hamburger-label {
     opacity: 1;
@@ -249,24 +241,14 @@
     color: var(--text);
   }
   
-  /* ------------------------
-     MOBILE / RESPONSIVE LAYOUT (drawer)
-     ------------------------ */
+  /* MOBILE / RESPONSIVE LAYOUT (drawer) */
   @media (max-width: 920px) {
-    /* show the hamburger as a textual control on mobile */
-    .hamburger {
-      display: inline-flex;
-    }
+    .hamburger { display: inline-flex; }
+    .hamburger .hamburger-label { display: inline-block; }
   
-    /* mobile label is visible inline (initially hidden until hover/active shows it) */
-    .hamburger .hamburger-label {
-      display: inline-block;
-    }
-  
-    /* Slide-down full-width panel (below navbar) */
     .navbar-links {
       position: fixed;
-      inset: calc(var(--nav-height)) 0 0 0; /* top = nav height; full width */
+      inset: calc(var(--nav-height)) 0 0 0;
       height: calc(100vh - var(--nav-height));
       width: 100%;
       background: linear-gradient(180deg, rgba(6,10,25,0.98), rgba(11,18,32,0.98));
@@ -283,14 +265,12 @@
       z-index: 1200;
     }
   
-    /* open state */
     .navbar-links.open {
       transform: translateY(0);
       opacity: 1;
       pointer-events: auto;
     }
   
-    /* mobile sizing */
     .navbar-links a {
       font-size: 1.25rem;
       color: var(--text);
@@ -301,16 +281,12 @@
     .contact-btn { padding: 12px 22px; font-size: 1.05rem; }
   }
   
-  /* ------------------------
-     REDUCED MOTION
-     ------------------------ */
+  /* REDUCED MOTION */
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
   
-  /* ------------------------
-     SMALL SCREEN TWEAKS
-     ------------------------ */
+  /* SMALL SCREEN TWEAKS */
   @media (max-width: 420px) {
     .navbar-container { gap: 0.5rem; padding-left: 0.9rem; padding-right: 0.9rem; }
     .navbar-logo { font-size: 1rem; }

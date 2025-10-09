@@ -1,119 +1,212 @@
-// src/components/Navbar/Navbar.jsx
-// God-tier Navbar component
-// - Semantic, accessible navigation
-// - Responsive mobile menu with animated hamburger + dynamic "Menu/Close" label
-// - Auto-closes when a link is clicked
-// - Locks page scroll while mobile menu is open
-// - SEO & Open Graph meta tags via react-helmet-async
-// - Clean, documented, production-ready
+// ===============================================================
+// Navbar.jsx — Final Production Build (auto-hide on scroll)
+// ---------------------------------------------------------------
+// - Semantic, accessible, responsive navbar
+// - Animated "Menu/Close" text hamburger (keeps your class names)
+// - Locks body scroll on mobile menu open
+// - Auto-hides on scroll down and reappears on scroll up
+// - SEO + Open Graph + Twitter meta tags (hardcoded via react-helmet-async)
+// - Small performance optimizations (rAF throttling, memoized links)
+// - Well-documented & production-ready
+// ===============================================================
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import "./Navbar.css";
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false); // mobile menu open state
-  const [scrolled, setScrolled] = useState(false); // navbar scrolled state
+const Navbar = React.memo(() => {
+  // Mobile menu open
+  const [isOpen, setIsOpen] = useState(false);
+  // Whether the page is scrolled a bit (used for scrolled styles)
+  const [scrolled, setScrolled] = useState(false);
+  // Subtle mount animation class
+  const [mounted, setMounted] = useState(false);
+  // Auto-hide state: true when navbar should hide (scrolling down)
+  const [hidden, setHidden] = useState(false);
 
-  // Add / remove scroll shadow based on Y offset
+  // Keep last Y in a ref so we can compare without triggering renders
+  const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
+  // Flag to ensure requestAnimationFrame throttling
+  const ticking = useRef(false);
+
+  // Small mount animation (improves perceived polish)
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const t = setTimeout(() => setMounted(true), 80);
+    return () => clearTimeout(t);
   }, []);
 
-  // Lock body scroll when mobile menu is open (prevents background scrolling)
+  // Scroll handler using rAF for smoothness and to avoid layout thrashing
   useEffect(() => {
-    if (isOpen) {
-      const previousOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = previousOverflow || "";
-      };
+    const threshold = 8; // minimal delta to count as meaningful scroll
+
+    function handle() {
+      const currentY = window.scrollY;
+
+      // set 'scrolled' flag for shadow/background at a fixed offset
+      setScrolled(currentY > 50);
+
+      // If mobile menu is open, keep navbar visible
+      if (isOpen) {
+        setHidden(false);
+        lastScrollY.current = currentY;
+        ticking.current = false;
+        return;
+      }
+
+      const delta = currentY - lastScrollY.current;
+
+      // Ignore very small movements
+      if (Math.abs(delta) < threshold) {
+        // keep previous state
+      } else if (delta > 0 && currentY > 100) {
+        // scrolling down and past 100px -> hide
+        setHidden(true);
+      } else if (delta < 0) {
+        // scrolling up -> show
+        setHidden(false);
+      }
+
+      lastScrollY.current = Math.max(0, currentY);
+      ticking.current = false;
     }
-    // no-op cleanup when closed
-    return undefined;
+
+    const onScroll = () => {
+      if (!ticking.current) {
+        ticking.current = true;
+        requestAnimationFrame(handle);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isOpen]); // re-register when menu open state changes
+
+  // Lock body scroll when mobile menu open
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow || "";
+    document.body.style.overflow = isOpen ? "hidden" : previousOverflow;
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, [isOpen]);
 
-  // Close menu on link click
+  // Close on Escape key for accessibility
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Ensure menu closes on resize (desktop breakpoint)
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 920 && isOpen) setIsOpen(false);
+    };
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => window.removeEventListener("resize", onResize);
+  }, [isOpen]);
+
+  // Memoize nav links to avoid re-renders
+  const navLinks = useMemo(
+    () => [
+      { id: "about", label: "About" },
+      { id: "skills", label: "Skills" },
+      { id: "projects", label: "Projects" },
+      { id: "experience", label: "Experience" },
+      { id: "contact", label: "Contact", isButton: true },
+    ],
+    []
+  );
+
   const handleLinkClick = () => setIsOpen(false);
 
   return (
     <>
-      {/* SEO + Open Graph meta tags for nav-level pages */}
+      {/* =====================
+          Hardcoded SEO + Social
+          (kept intentionally inside Navbar as requested)
+          ===================== */}
       <Helmet>
-        <title>Dexx — Portfolio</title>
+        <html lang="en" />
+        <title>Dexx — Fullstack Developer Portfolio</title>
         <meta
           name="description"
-          content="Dexx — Fullstack Software Engineer. Explore projects, skills, and professional experience."
+          content="Dexx — Fullstack Software Engineer specializing in modern web and AI technologies. Explore projects, experience, and achievements."
         />
-        <meta name="keywords" content="Dexx, portfolio, fullstack, react, node, projects" />
-        <meta property="og:title" content="Dexx — Portfolio" />
-        <meta property="og:description" content="A showcase of Dexx's expertise in software engineering and modern web development." />
+        <meta
+          name="keywords"
+          content="Dexx, portfolio, fullstack developer, React, Node.js, AI engineer, software engineer"
+        />
+        <link rel="canonical" href="https://yourdomain.com/" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="Dexx — Fullstack Developer Portfolio" />
+        <meta
+          property="og:description"
+          content="Explore Dexx's portfolio showcasing expertise in React, Node.js, and software development excellence."
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://yourdomain.com/" />
         <meta property="og:image" content="https://yourdomain.com/preview.png" />
+        <meta property="og:image:alt" content="Dexx portfolio preview" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Dexx — Fullstack Developer Portfolio" />
+        <meta
+          name="twitter:description"
+          content="Explore Dexx’s world-class portfolio in fullstack software engineering and web development."
+        />
+        <meta name="twitter:image" content="https://yourdomain.com/preview.png" />
+        <meta name="twitter:image:alt" content="Dexx portfolio preview" />
+
+        {/* preload hint for OG preview image (low priority) */}
+        <link rel="preload" as="image" href="https://yourdomain.com/preview.png" />
       </Helmet>
 
+      {/* Main nav: keep original class names intact */}
       <nav
-        className={`navbar ${scrolled ? "scrolled" : ""}`}
+        className={`navbar ${scrolled ? "scrolled" : ""} ${mounted ? "mounted" : ""} ${
+          hidden ? "hidden" : ""
+        } ${isOpen ? "menu-open" : ""}`}
         role="navigation"
         aria-label="Main Navigation"
       >
         <div className="navbar-container">
-          {/* Branding */}
-          <a href="#home" className="navbar-logo" aria-label="Go to homepage">
+          {/* Logo */}
+          <a href="#home" className="navbar-logo" aria-label="Go to homepage" onClick={handleLinkClick}>
             Dexx<span className="accent-dot">.</span>
           </a>
 
-          {/* Navigation links (desktop + mobile panel) */}
-          <ul className={`navbar-links ${isOpen ? "open" : ""}`}>
-            <li>
-              <a href="#about" onClick={handleLinkClick}>
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#skills" onClick={handleLinkClick}>
-                Skills
-              </a>
-            </li>
-            <li>
-              <a href="#projects" onClick={handleLinkClick}>
-                Projects
-              </a>
-            </li>
-            <li>
-              <a href="#experience" onClick={handleLinkClick}>
-                Experience
-              </a>
-            </li>
-            <li>
-              <a href="#contact" className="contact-btn" onClick={handleLinkClick}>
-                Contact
-              </a>
-            </li>
+          {/* Links */}
+          <ul id="main-navigation" className={`navbar-links ${isOpen ? "open" : ""}`} aria-label="Primary navigation">
+            {navLinks.map(({ id, label, isButton }) => (
+              <li key={id}>
+                <a href={`#${id}`} onClick={handleLinkClick} className={isButton ? "contact-btn" : ""}>
+                  {label}
+                </a>
+              </li>
+            ))}
           </ul>
 
-          {/* Right-side actions: hamburger (mobile). No theme toggle included (removed). */}
-          <div className="navbar-actions" aria-hidden={false}>
-            {/* Hamburger button: accessible, shows dynamic label */}
-            <button
-            className="hamburger"
+          {/* Hamburger */}
+          <button
+            className={`hamburger ${isOpen ? "active" : ""}`}
             onClick={() => setIsOpen((s) => !s)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="main-navigation"
->
-            {/* Dynamic text label visible on mobile */}
+          >
             <span className="hamburger-label">{isOpen ? "Close" : "Menu"}</span>
-            </button>
-
-          </div>
+          </button>
         </div>
       </nav>
     </>
   );
-};
+});
 
 export default Navbar;

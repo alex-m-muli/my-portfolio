@@ -1,20 +1,21 @@
-/* src/components/Experience/Experience.css
-   ------------------------------------------------------------------
-   Experience Section — God-tier timeline stylesheet
-   - Timeline glow, smooth entry animations, responsive perfection
-   - Matches site palette (use CSS variables if available from global styles)
-   - Accessibility: sufficient contrast, focus-visible, reduced-motion support
-   - Performance: GPU friendly transforms, minimal repaints
-   ------------------------------------------------------------------ */
+/* ===============================================================
+   src/components/Experience/Experience.css — Final Production Build
+   ===============================================================
+   Subtle improvements:
+   - CSS variables aligned with overall theme but slightly tuned for this section
+   - IntersectionObserver-driven "visible" class controls animation playback
+   - Focus-visible and keyboard affordances added
+   - Reduced-motion respected
+   =============================================================== */
 
    :root{
-    --exp-bg-start: #f5f9ff;
-    --exp-bg-end: #eaf2ff;
-    --accent: #3b82f6; /* blue */
-    --accent-strong: #2563eb;
+    --exp-bg-start: #f6f9ff;
+    --exp-bg-end: #eef6ff;
+    --accent: #4fc3f7;       /* cyan-leaning accent for harmony */
+    --accent-strong: #2563eb;/* deeper blue for headings */
     --muted-text: #475569;
     --surface: #ffffff;
-    --glow: rgba(59,130,246,0.18);
+    --glow: rgba(79,193,247,0.14);
   }
   
   .experience-section{
@@ -31,19 +32,19 @@
   .experience-header p{ margin:0.6rem 0 0; color:var(--muted-text); font-size:1.05rem; }
   
   /* Timeline wrapper */
-  .timeline{ max-width:1100px; margin:2.5rem auto 0; position:relative; padding-left:32px; }
+  .timeline{ max-width:1100px; margin:2.5rem auto 0; position:relative; padding-left:36px; }
   
   /* vertical line */
   .timeline::before{
     content:"";
     position:absolute;
-    left:12px;
+    left:16px;
     top:0;
     bottom:0;
-    width:4px;
-    background: linear-gradient(180deg, rgba(59,130,246,0.35), rgba(37,99,235,0.15));
-    border-radius:4px;
-    box-shadow: 0 8px 30px var(--glow) inset;
+    width:6px;
+    background: linear-gradient(180deg, rgba(79,193,247,0.4), rgba(37,99,235,0.12));
+    border-radius:6px;
+    box-shadow: 0 12px 40px var(--glow) inset;
   }
   
   /* Individual item */
@@ -52,12 +53,12 @@
   /* Dot marker */
   .timeline-item .dot{
     position:absolute;
-    left:-2px; /* align with vertical line */
-    top:3px;
+    left:8px; /* align with vertical line */
+    top:6px;
     width:18px; height:18px; border-radius:50%;
     background:var(--surface);
     border:4px solid var(--accent);
-    box-shadow: 0 0 18px rgba(59,130,246,0.22);
+    box-shadow: 0 0 20px rgba(79,193,247,0.22);
     transition: transform 260ms cubic-bezier(.2,.9,.3,1), box-shadow 260ms ease;
   }
   
@@ -69,6 +70,7 @@
     box-shadow: 0 8px 28px rgba(2,6,23,0.06);
     flex:1;
     transform-origin: left top;
+    will-change: transform, opacity;
   }
   
   .content h3{ margin:0 0 0.25rem; font-size:1.2rem; color:#07143a; font-weight:800; }
@@ -76,6 +78,10 @@
   .content p{ margin:0 0 0.75rem; color:#10203a; line-height:1.7; }
   .content ul{ margin:0 0 0 1.1rem; padding:0; color:#16324a; }
   .content ul li{ margin-bottom:0.45rem; }
+  
+  /* Accessibility: focus-visible for timeline item */
+  .timeline-item:focus-visible{ outline: none; box-shadow: 0 0 0 6px rgba(79,193,247,0.12); border-radius: 12px; }
+  .timeline-item:focus-visible .content{ transform: translateY(-4px); box-shadow: 0 14px 40px rgba(2,6,23,0.09); }
   
   /* Hover/Focus states */
   .timeline-item:hover .dot,
@@ -88,11 +94,21 @@
   .content strong{ color:var(--accent-strong); }
   .content em{ color:var(--accent); font-style:normal; font-weight:700; }
   
-  /* Entry animation */
+  /* Entry animation (defined but paused by default) */
   @keyframes slideFadeUp{ from{ opacity:0; transform: translateY(16px); } to{ opacity:1; transform: translateY(0); } }
-  .timeline-item{ animation: slideFadeUp 620ms ease both; }
   
-  /* Staggered appearance for visual polish (optional JS enhancement later) */
+  .timeline-item{
+    animation: slideFadeUp 620ms ease both;
+    animation-play-state: paused; /* will be activated by JS when item intersects */
+    opacity:0; /* ensure not visible until animation runs */
+  }
+  
+  /* When JS marks item visible we run the animation */
+  .timeline-item.visible{
+    animation-play-state: running;
+  }
+  
+  /* Staggered appearance for visual polish (kept from original) */
   .timeline-item:nth-child(1){ animation-delay: 0ms; }
   .timeline-item:nth-child(2){ animation-delay: 80ms; }
   .timeline-item:nth-child(3){ animation-delay: 160ms; }
@@ -119,9 +135,8 @@
   
   /* Accessibility: reduced motion */
   @media (prefers-reduced-motion: reduce){
-    .timeline-item, .timeline-item *{ animation: none !important; transition: none !important; }
+    .timeline-item, .timeline-item *{ animation: none !important; transition: none !important; opacity:1 !important; transform:none !important; }
   }
   
   /* Small utility */
   .content a{ color:var(--accent-strong); text-decoration:underline; }
-  
