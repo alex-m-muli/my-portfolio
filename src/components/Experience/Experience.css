@@ -1,142 +1,206 @@
 /* ===============================================================
-   src/components/Experience/Experience.css — Final Production Build
+   src/components/Experience/Experience.css — God-Tier Upgrade
    ===============================================================
-   Subtle improvements:
-   - CSS variables aligned with overall theme but slightly tuned for this section
-   - IntersectionObserver-driven "visible" class controls animation playback
-   - Focus-visible and keyboard affordances added
-   - Reduced-motion respected
+   - Card-based visual layout with consistent sizing and balanced spacing
+   - Adds subtle hover lift, soft neon glow, and depth layers
+   - Fully responsive and accessible
+   - Respects prefers-reduced-motion
+   - Harmonizes with About/Hero color palette
    =============================================================== */
 
-   :root{
-    --exp-bg-start: #f6f9ff;
-    --exp-bg-end: #eef6ff;
-    --accent: #4fc3f7;       /* cyan-leaning accent for harmony */
-    --accent-strong: #2563eb;/* deeper blue for headings */
-    --muted-text: #475569;
-    --surface: #ffffff;
-    --glow: rgba(79,193,247,0.14);
+/* Theme tokens */
+:root {
+  --max-width: 1100px;
+  --bg-start: #f8fbff;
+  --bg-end: #eef4ff;
+  --card-surface: #ffffff;
+  --muted: #475569;
+  --accent: #4fc3f7;
+  --accent-strong: #2563eb;
+  --glow: rgba(79,195,247,0.22);
+  --card-radius: 16px;
+  --transition: 260ms cubic-bezier(.2,.9,.3,1);
+}
+
+.experience-section {
+  background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+  color: #071225;
+  padding: 6rem 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-header {
+  max-width: var(--max-width);
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+.experience-header h2 {
+  font-size: 2.6rem;
+  margin: 0 0 0.5rem;
+  color: var(--accent-strong);
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+
+.experience-header p {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* Cards Grid */
+.timeline-cards {
+  max-width: var(--max-width);
+  margin: 2rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.8rem;
+  align-items: stretch;
+  padding-inline: 0.5rem;
+}
+
+/* Individual Card */
+.exp-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,250,255,0.96));
+  border-radius: var(--card-radius);
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  border: 1px solid rgba(37,99,235,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  gap: 1rem;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  will-change: transform, opacity;
+  min-height: 330px;
+}
+
+/* Reveal Animation (triggered by JS) */
+.exp-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Hover Animation */
+.exp-card:hover,
+.exp-card:focus {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 12px 36px rgba(37, 99, 235, 0.18);
+  border-color: rgba(37,99,235,0.12);
+  outline: none;
+}
+
+/* Header Group */
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.title-group {
+  text-align: left;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #07143a;
+}
+
+.company {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.date-badge {
+  background: linear-gradient(90deg, rgba(79,193,247,0.1), rgba(37,99,235,0.1));
+  color: var(--accent-strong);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border: 1px solid rgba(79,193,247,0.12);
+  box-shadow: 0 0 10px var(--glow);
+}
+
+/* Body */
+.card-body {
+  padding-top: 0.2rem;
+  flex-grow: 1;
+}
+
+.card-desc {
+  margin: 0 0 0.6rem;
+  color: #0f2a44;
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+.card-bullets {
+  margin: 0 0 0 1.25rem;
+  padding: 0;
+  color: #16324a;
+}
+
+.card-bullets li {
+  margin-bottom: 0.4rem;
+}
+
+/* Footer */
+.card-footer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.view-more {
+  font-weight: 700;
+  color: var(--accent-strong);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition);
+}
+
+.view-more:hover,
+.view-more:focus {
+  border-bottom-color: var(--accent);
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+  .timeline-cards {
+    grid-template-columns: 1fr;
   }
-  
-  .experience-section{
-    background: linear-gradient(180deg, var(--exp-bg-start) 0%, var(--exp-bg-end) 100%);
-    color: #0b1b2b;
-    padding: 6.5rem 1.25rem;
-    position: relative;
-    overflow: hidden;
+
+  .exp-card {
+    padding: 1.25rem;
+    border-radius: 18px;
+    min-height: auto;
+    box-shadow: 0 6px 16px rgba(37,99,235,0.1);
   }
-  
-  /* Section header */
-  .experience-header{ text-align:center; max-width:1100px; margin:0 auto 2.5rem; }
-  .experience-header h2{ font-size:2.4rem; margin:0; color:var(--accent-strong); font-weight:800; }
-  .experience-header p{ margin:0.6rem 0 0; color:var(--muted-text); font-size:1.05rem; }
-  
-  /* Timeline wrapper */
-  .timeline{ max-width:1100px; margin:2.5rem auto 0; position:relative; padding-left:36px; }
-  
-  /* vertical line */
-  .timeline::before{
-    content:"";
-    position:absolute;
-    left:16px;
-    top:0;
-    bottom:0;
-    width:6px;
-    background: linear-gradient(180deg, rgba(79,193,247,0.4), rgba(37,99,235,0.12));
-    border-radius:6px;
-    box-shadow: 0 12px 40px var(--glow) inset;
+
+  .card-title {
+    font-size: 1.05rem;
   }
-  
-  /* Individual item */
-  .timeline-item{ position:relative; margin-bottom:2.5rem; display:flex; gap:1rem; align-items:flex-start; }
-  
-  /* Dot marker */
-  .timeline-item .dot{
-    position:absolute;
-    left:8px; /* align with vertical line */
-    top:6px;
-    width:18px; height:18px; border-radius:50%;
-    background:var(--surface);
-    border:4px solid var(--accent);
-    box-shadow: 0 0 20px rgba(79,193,247,0.22);
-    transition: transform 260ms cubic-bezier(.2,.9,.3,1), box-shadow 260ms ease;
+
+  .card-desc {
+    font-size: 0.98rem;
   }
-  
-  /* Content box */
-  .timeline-item .content{
-    background:var(--surface);
-    padding:1.1rem 1.25rem;
-    border-radius:12px;
-    box-shadow: 0 8px 28px rgba(2,6,23,0.06);
-    flex:1;
-    transform-origin: left top;
-    will-change: transform, opacity;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .exp-card {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
-  
-  .content h3{ margin:0 0 0.25rem; font-size:1.2rem; color:#07143a; font-weight:800; }
-  .content .date{ display:block; font-size:0.92rem; color:var(--muted-text); margin-bottom:0.6rem; }
-  .content p{ margin:0 0 0.75rem; color:#10203a; line-height:1.7; }
-  .content ul{ margin:0 0 0 1.1rem; padding:0; color:#16324a; }
-  .content ul li{ margin-bottom:0.45rem; }
-  
-  /* Accessibility: focus-visible for timeline item */
-  .timeline-item:focus-visible{ outline: none; box-shadow: 0 0 0 6px rgba(79,193,247,0.12); border-radius: 12px; }
-  .timeline-item:focus-visible .content{ transform: translateY(-4px); box-shadow: 0 14px 40px rgba(2,6,23,0.09); }
-  
-  /* Hover/Focus states */
-  .timeline-item:hover .dot,
-  .timeline-item:focus-within .dot{ transform: scale(1.08); box-shadow: 0 0 28px rgba(37,99,235,0.35); }
-  
-  .timeline-item:hover .content,
-  .timeline-item:focus-within .content{ box-shadow: 0 14px 40px rgba(2,6,23,0.09); transform: translateY(-4px); }
-  
-  /* Accent highlight inside content */
-  .content strong{ color:var(--accent-strong); }
-  .content em{ color:var(--accent); font-style:normal; font-weight:700; }
-  
-  /* Entry animation (defined but paused by default) */
-  @keyframes slideFadeUp{ from{ opacity:0; transform: translateY(16px); } to{ opacity:1; transform: translateY(0); } }
-  
-  .timeline-item{
-    animation: slideFadeUp 620ms ease both;
-    animation-play-state: paused; /* will be activated by JS when item intersects */
-    opacity:0; /* ensure not visible until animation runs */
-  }
-  
-  /* When JS marks item visible we run the animation */
-  .timeline-item.visible{
-    animation-play-state: running;
-  }
-  
-  /* Staggered appearance for visual polish (kept from original) */
-  .timeline-item:nth-child(1){ animation-delay: 0ms; }
-  .timeline-item:nth-child(2){ animation-delay: 80ms; }
-  .timeline-item:nth-child(3){ animation-delay: 160ms; }
-  .timeline-item:nth-child(4){ animation-delay: 240ms; }
-  .timeline-item:nth-child(5){ animation-delay: 320ms; }
-  
-  /* Responsive adjustments */
-  @media (max-width: 920px){
-    .timeline{ padding-left:20px; }
-    .timeline::before{ left:8px; width:3px; }
-    .timeline-item{ gap:0.8rem; }
-    .timeline-item .dot{ left:-6px; width:14px; height:14px; border-width:3px; }
-    .content h3{ font-size:1.1rem; }
-  }
-  
-  @media (max-width: 560px){
-    .experience-section{ padding:3.5rem 1rem; }
-    .timeline{ padding-left:12px; }
-    .timeline::before{ left:6px; }
-    .timeline-item{ flex-direction:column; }
-    .timeline-item .dot{ position:relative; left:0; margin-bottom:8px; }
-    .content{ width:100%; }
-  }
-  
-  /* Accessibility: reduced motion */
-  @media (prefers-reduced-motion: reduce){
-    .timeline-item, .timeline-item *{ animation: none !important; transition: none !important; opacity:1 !important; transform:none !important; }
-  }
-  
-  /* Small utility */
-  .content a{ color:var(--accent-strong); text-decoration:underline; }
+}

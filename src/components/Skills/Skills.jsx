@@ -1,35 +1,56 @@
 // ===============================================================
-// src/components/Skills/Skills.jsx — Polished Production Upgrade
+// src/components/Skills/Skills.jsx — God-Tier Icon Enhanced
 // ===============================================================
-// - Retains all original class names for backward compatibility
-// - Upgrades visual harmony with subtle gradients, layered depth
-// - Slight 3D hover response + refined glow and color contrast
-// - SEO meta kept intact (hardcoded)
-// - Animations softened and visually balanced
+// - Dynamic icon mapping via React Icons
+// - Neon hover glows per technology category
+// - Maintains SEO meta tags & accessibility
+// - Smooth observer-based entrance animation
+// - Fully compatible with upgraded Skills.css
 // ===============================================================
 
 import React, { useEffect, useRef, memo } from "react";
 import { Helmet } from "react-helmet-async";
+import {
+  FaReact,
+  FaNodeJs,
+  FaDocker,
+  FaServer,
+  FaCloud,
+  FaLock,
+  FaCubes,
+} from "react-icons/fa";
+import {
+  SiTypescript,
+  SiGraphql,
+  SiKubernetes,
+  SiTerraform,
+  SiMongodb,
+  SiOpenai,
+  SiPrometheus,
+} from "react-icons/si";
 import "./Skills.css";
 
+// ==================== SKILL DATA ====================
 const skillsData = [
-  { name: "React.js", level: "Expert" },
-  { name: "TypeScript", level: "Expert" },
-  { name: "Node.js & APIs", level: "Expert" },
-  { name: "Generative AI & LLMs", level: "Advanced" },
-  { name: "MLOps / Model Ops", level: "Advanced" },
-  { name: "Cloud-native (K8s / Serverless)", level: "Advanced" },
-  { name: "Data Engineering & ETL", level: "Proficient" },
-  { name: "Observability & SRE", level: "Proficient" },
-  { name: "Infrastructure as Code (Terraform)", level: "Proficient" },
-  { name: "GraphQL & Modern APIs", level: "Proficient" },
-  { name: "DevSecOps & Secure SDLC", level: "Intermediate" },
-  { name: "Docker / Kubernetes", level: "Intermediate" },
+  { name: "React.js", level: "Expert", icon: <FaReact className="icon react" /> },
+  { name: "TypeScript", level: "Expert", icon: <SiTypescript className="icon ts" /> },
+  { name: "Node.js & APIs", level: "Expert", icon: <FaNodeJs className="icon node" /> },
+  { name: "Generative AI & LLMs", level: "Advanced", icon: <SiOpenai className="icon ai" /> },
+  { name: "MLOps / Model Ops", level: "Advanced", icon: <FaCubes className="icon mlops" /> },
+  { name: "Cloud-native (K8s / Serverless)", level: "Advanced", icon: <FaCloud className="icon cloud" /> },
+  { name: "Data Engineering & ETL", level: "Proficient", icon: <SiMongodb className="icon data" /> },
+  { name: "Observability & SRE", level: "Proficient", icon: <SiPrometheus className="icon sre" /> },
+  { name: "Infrastructure as Code (Terraform)", level: "Proficient", icon: <SiTerraform className="icon terraform" /> },
+  { name: "GraphQL & Modern APIs", level: "Proficient", icon: <SiGraphql className="icon graphql" /> },
+  { name: "DevSecOps & Secure SDLC", level: "Intermediate", icon: <FaLock className="icon devsecops" /> },
+  { name: "Docker / Kubernetes", level: "Intermediate", icon: <FaDocker className="icon docker" /> },
 ];
 
+// ==================== COMPONENT ====================
 const Skills = () => {
   const containerRef = useRef(null);
 
+  // Intersection Observer for entrance animation
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -37,7 +58,10 @@ const Skills = () => {
     const cards = Array.from(container.querySelectorAll(".skill-card"));
     if (!cards.length) return;
 
-    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReduced =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     if (prefersReduced) {
       cards.forEach((c) => c.classList.add("visible"));
       return;
@@ -66,16 +90,16 @@ const Skills = () => {
         <title>Skills — Alex M. Muli Portfolio</title>
         <meta
           name="description"
-          content="Explore Alex M. Muli's 2025 technical stack mastery: React, TypeScript, Node.js, AI, Cloud-native systems, and DevOps excellence."
+          content="Explore Alex M. Muli's 2025 full-stack and AI expertise — React, TypeScript, Node.js, Kubernetes, MLOps, and Cloud systems."
         />
         <meta
           name="keywords"
-          content="React, TypeScript, Node.js, AI, MLOps, Kubernetes, Docker, Terraform, GraphQL, DevSecOps, Observability, Portfolio"
+          content="React, TypeScript, Node.js, Kubernetes, Docker, MLOps, AI, Terraform, GraphQL, DevSecOps"
         />
         <meta property="og:title" content="Skills — Alex M. Muli Portfolio" />
         <meta
           property="og:description"
-          content="Discover Alex M. Muli's expertise in fullstack, AI/ML, and high-performance systems engineering."
+          content="Discover Alex M. Muli's technical mastery across AI, cloud-native, and full-stack engineering."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://your-portfolio.com/#skills" />
@@ -101,7 +125,9 @@ const Skills = () => {
               aria-label={`${skill.name} — ${skill.level}`}
               style={{ animationDelay: `${index * 90}ms` }}
             >
-              <div className="skill-icon" aria-hidden="true"></div>
+              <div className="skill-icon" aria-hidden="true">
+                {skill.icon}
+              </div>
               <h4 className="skill-name">{skill.name}</h4>
               <p className="skill-level">{skill.level}</p>
             </div>

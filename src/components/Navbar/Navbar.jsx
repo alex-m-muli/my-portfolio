@@ -131,38 +131,38 @@ const Navbar = React.memo(() => {
           ===================== */}
       <Helmet>
         <html lang="en" />
-        <title>Dexx — Fullstack Developer Portfolio</title>
+        <title>Alex — Fullstack Developer Portfolio</title>
         <meta
           name="description"
-          content="Dexx — Fullstack Software Engineer specializing in modern web and AI technologies. Explore projects, experience, and achievements."
+          content="Alex — Fullstack Software Engineer specializing in modern web and AI technologies. Explore projects, experience, and achievements."
         />
         <meta
           name="keywords"
-          content="Dexx, portfolio, fullstack developer, React, Node.js, AI engineer, software engineer"
+          content="Alex, portfolio, fullstack developer, React, Node.js, AI engineer, software engineer"
         />
         <link rel="canonical" href="https://yourdomain.com/" />
 
         {/* Open Graph */}
-        <meta property="og:title" content="Dexx — Fullstack Developer Portfolio" />
+        <meta property="og:title" content="Alex — Fullstack Developer Portfolio" />
         <meta
           property="og:description"
-          content="Explore Dexx's portfolio showcasing expertise in React, Node.js, and software development excellence."
+          content="Explore Alex's portfolio showcasing expertise in React, Node.js, and software development excellence."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://yourdomain.com/" />
         <meta property="og:image" content="https://yourdomain.com/preview.png" />
-        <meta property="og:image:alt" content="Dexx portfolio preview" />
+        <meta property="og:image:alt" content="Alex portfolio preview" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Dexx — Fullstack Developer Portfolio" />
+        <meta name="twitter:title" content="Alex — Fullstack Developer Portfolio" />
         <meta
           name="twitter:description"
-          content="Explore Dexx’s world-class portfolio in fullstack software engineering and web development."
+          content="Explore Alex’s world-class portfolio in fullstack software engineering and web development."
         />
         <meta name="twitter:image" content="https://yourdomain.com/preview.png" />
-        <meta name="twitter:image:alt" content="Dexx portfolio preview" />
+        <meta name="twitter:image:alt" content="Alex portfolio preview" />
 
         {/* preload hint for OG preview image (low priority) */}
         <link rel="preload" as="image" href="https://yourdomain.com/preview.png" />
@@ -179,7 +179,7 @@ const Navbar = React.memo(() => {
         <div className="navbar-container">
           {/* Logo */}
           <a href="#home" className="navbar-logo" aria-label="Go to homepage" onClick={handleLinkClick}>
-            Dexx<span className="accent-dot">.</span>
+            Alex<span className="accent-dot">.</span>
           </a>
 
           {/* Links */}

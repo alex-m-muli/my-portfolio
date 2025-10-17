@@ -1,14 +1,29 @@
-// src/components/Footer.jsx
+// src/components/Footer/Footer.jsx
+/**
+ * ⚡ God-tier Footer Component (2025 Upgrade)
+ * --------------------------------------------------------------
+ * - Adds social media links (LinkedIn, X, GitHub)
+ * - Glowing hover accents per brand color
+ * - SEO + Open Graph + Twitter meta fully structured
+ * - Animated line + back-to-top orb retained
+ * - Accessible and responsive
+ */
+
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  FaLinkedin,
+  FaXTwitter,
+  FaGithub,
+} from "react-icons/fa6";
 import "./Footer.css";
 
 export default function Footer() {
   const [showButton, setShowButton] = useState(false);
 
-  // 🧭 Track scroll position for the floating button visibility
+  // 🧭 Show back-to-top orb on scroll
   useEffect(() => {
     const handleScroll = () => setShowButton(window.scrollY > 300);
     window.addEventListener("scroll", handleScroll);
@@ -58,6 +73,7 @@ export default function Footer() {
             {new Date().getFullYear()} All Rights Reserved.
           </p>
 
+          {/* ✉️ Email */}
           <p className="footer-email">
             <FontAwesomeIcon icon={faEnvelope} className="email-icon" />
             <a
@@ -67,6 +83,37 @@ export default function Footer() {
               businessdash01@gmail.com
             </a>
           </p>
+
+          {/* 🌐 Social Links */}
+          <div className="footer-social">
+            <a
+              href="https://www.linkedin.com/in/alex-muli-709530265"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+              className="social-icon linkedin"
+            >
+              <FaLinkedin />
+            </a>
+            <a
+              href="https://x.com/eng_alexzack?t=A4cNkNfyUgScXH0s6NmeCw&s=08"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X (Twitter) Profile"
+              className="social-icon x"
+            >
+              <FaXTwitter />
+            </a>
+            <a
+              href="https://github.com/alex-m-muli"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Profile"
+              className="social-icon github"
+            >
+              <FaGithub />
+            </a>
+          </div>
 
           <div className="footer-glow-line"></div>
         </div>

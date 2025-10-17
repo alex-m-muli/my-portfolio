@@ -3,6 +3,7 @@
    - Preserves all original selectors and variables
    - Adds .navbar.hidden to hide on scroll down
    - Adds safe-area inset and subtle transition tweaks
+   - Enhanced Contact Button (luxury tech glow edition)
    =============================================================== */
 
    :root {
@@ -19,9 +20,9 @@
     --bg-glass-scrolled: rgba(6, 10, 25, 0.82);
   
     --text: #eaf2ff;
-    --muted: rgba(234,242,255,0.9);
+    --muted: rgba(234, 242, 255, 0.9);
   
-    --focus: rgba(79,195,247,0.12);
+    --focus: rgba(79, 195, 247, 0.12);
   
     --nav-transition: 240ms;
   }
@@ -37,35 +38,34 @@
     align-items: center;
     justify-content: center;
     padding: 0 var(--nav-padding-x);
-    /* respect iOS/Android safe area */
     padding-top: calc(env(safe-area-inset-top, 0) + 0px);
     z-index: 1200;
   
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   
-    transition: background-color var(--nav-transition) ease, box-shadow var(--nav-transition) ease, transform var(--nav-transition) ease;
+    transition: background-color var(--nav-transition) ease, box-shadow var(--nav-transition) ease,
+      transform var(--nav-transition) ease;
     will-change: transform;
   }
   
-  /* AUTO-HIDE: moves navbar out of view when hidden */
+  /* AUTO-HIDE */
   .navbar.hidden {
     transform: translateY(calc(-1 * (var(--nav-height) + 8px)));
     box-shadow: none;
-    /* avoid accidental clicks when hidden */
     pointer-events: none;
   }
   
-  /* When menu is open we force pointer events and visible state from JS, but keep visual polish */
+  /* When menu is open */
   .navbar.menu-open {
     pointer-events: auto;
   }
   
   .navbar.scrolled {
     background: var(--bg-glass-scrolled);
-    box-shadow: 0 12px 40px rgba(2,6,23,0.6);
+    box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6);
   }
   
   /* INNER CONTAINER */
@@ -89,17 +89,18 @@
     font-size: clamp(1.05rem, 1.6vw, 1.25rem);
     letter-spacing: -0.01em;
   }
-  
   .navbar-logo:hover,
-  .navbar-logo:focus { color: var(--accent-b); outline: none; }
-  
+  .navbar-logo:focus {
+    color: var(--accent-b);
+    outline: none;
+  }
   .navbar-logo .accent-dot {
     display: inline-block;
     width: 12px;
     height: 12px;
     border-radius: 50%;
     background: linear-gradient(90deg, var(--accent-a), var(--accent-b) 60%, var(--accent-c));
-    box-shadow: 0 6px 18px rgba(79,195,247,0.08);
+    box-shadow: 0 6px 18px rgba(79, 195, 247, 0.08);
   }
   
   /* NAV LINKS (desktop) */
@@ -111,7 +112,6 @@
     padding: 0;
     align-items: center;
   }
-  
   .navbar-links a {
     color: var(--muted);
     text-decoration: none;
@@ -121,7 +121,6 @@
     border-radius: 10px;
     transition: color 180ms ease, background 180ms ease, transform 160ms ease;
   }
-  
   .navbar-links a:hover,
   .navbar-links a:focus {
     color: var(--text);
@@ -145,7 +144,7 @@
       background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
       transform-origin: left center;
       transform: scaleX(0);
-      transition: transform 260ms cubic-bezier(.2,.9,.3,1);
+      transition: transform 260ms cubic-bezier(0.2, 0.9, 0.3, 1);
       border-radius: 6px;
       opacity: 0.95;
     }
@@ -155,37 +154,80 @@
     }
   }
   
-  /* CONTACT CTA */
+  /* CONTACT CTA — Enhanced “Luxury Tech Glow” Version */
   .contact-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 9px 14px;
+    padding: 10px 20px;
     border-radius: 999px;
     font-weight: 800;
-    font-size: 0.95rem;
+    font-size: 0.96rem;
     text-decoration: none;
     border: none;
     cursor: pointer;
     background: linear-gradient(90deg, var(--accent-a), var(--accent-b) 60%, var(--accent-c));
-    color: #04060a;
-    box-shadow: 0 10px 30px rgba(79,195,247,0.08);
-    transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms ease;
-  }
-  .contact-btn:hover,
-  .contact-btn:focus {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 46px rgba(79,195,247,0.14);
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(79, 195, 247, 0.25), inset 0 0 10px rgba(255, 255, 255, 0.12);
+    position: relative;
+    overflow: hidden;
+    transition: transform 240ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 240ms ease,
+      background-position 400ms ease;
+    background-size: 200% 100%;
+    background-position: left center;
+    isolation: isolate;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
   }
   
-  /* NAVBAR ACTIONS (right) */
+  .contact-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.22) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 300ms ease;
+    z-index: 0;
+  }
+  
+  .contact-btn:hover,
+  .contact-btn:focus {
+    transform: translateY(-3px) scale(1.05);
+    background-position: right center;
+    box-shadow: 0 18px 48px rgba(79, 195, 247, 0.35);
+  }
+  
+  .contact-btn:hover::before,
+  .contact-btn:focus::before {
+    opacity: 1;
+  }
+  
+  .contact-btn span {
+    position: relative;
+    z-index: 1;
+  }
+  
+  @keyframes floatPulse {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+  
+  .contact-btn {
+    animation: floatPulse 5s ease-in-out infinite;
+  }
+  
+  /* NAVBAR ACTIONS */
   .navbar-actions {
     display: flex;
     align-items: center;
     gap: 0.6rem;
   }
-  
   .navbar-actions button,
   .navbar-actions a {
     background: transparent;
@@ -193,7 +235,7 @@
     cursor: pointer;
   }
   
-  /* accessible focus-visible */
+  /* FOCUS STATES */
   .navbar a:focus-visible,
   .navbar button:focus-visible {
     outline: none;
@@ -201,9 +243,9 @@
     border-radius: 8px;
   }
   
-  /* HAMBURGER (mobile) — TEXT-BASED */
+  /* HAMBURGER */
   .hamburger {
-    display: none; /* hidden on desktop */
+    display: none;
     align-items: center;
     gap: 0.5rem;
     background: transparent;
@@ -217,7 +259,6 @@
     transition: color 200ms ease, transform 200ms ease, opacity 200ms ease;
     z-index: 1300;
   }
-  
   .hamburger .hamburger-label {
     display: inline-block;
     color: var(--muted);
@@ -227,13 +268,7 @@
     user-select: none;
     pointer-events: none;
   }
-  
-  .hamburger.active .hamburger-label {
-    opacity: 1;
-    transform: translateY(0);
-    color: var(--text);
-  }
-  
+  .hamburger.active .hamburger-label,
   .hamburger:hover .hamburger-label,
   .hamburger:focus .hamburger-label {
     opacity: 1;
@@ -241,17 +276,20 @@
     color: var(--text);
   }
   
-  /* MOBILE / RESPONSIVE LAYOUT (drawer) */
+  /* MOBILE MENU */
   @media (max-width: 920px) {
-    .hamburger { display: inline-flex; }
-    .hamburger .hamburger-label { display: inline-block; }
-  
+    .hamburger {
+      display: inline-flex;
+    }
+    .hamburger .hamburger-label {
+      display: inline-block;
+    }
     .navbar-links {
       position: fixed;
       inset: calc(var(--nav-height)) 0 0 0;
       height: calc(100vh - var(--nav-height));
       width: 100%;
-      background: linear-gradient(180deg, rgba(6,10,25,0.98), rgba(11,18,32,0.98));
+      background: linear-gradient(180deg, rgba(6, 10, 25, 0.98), rgba(11, 18, 32, 0.98));
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -261,35 +299,48 @@
       transform: translateY(-6%);
       opacity: 0;
       pointer-events: none;
-      transition: transform 300ms cubic-bezier(.2,.9,.3,1), opacity 300ms ease;
+      transition: transform 300ms cubic-bezier(0.2, 0.9, 0.3, 1), opacity 300ms ease;
       z-index: 1200;
     }
-  
     .navbar-links.open {
       transform: translateY(0);
       opacity: 1;
       pointer-events: auto;
     }
-  
     .navbar-links a {
       font-size: 1.25rem;
       color: var(--text);
       padding: 12px 16px;
       border-radius: 10px;
     }
-  
-    .contact-btn { padding: 12px 22px; font-size: 1.05rem; }
+    .contact-btn {
+      padding: 12px 26px;
+      font-size: 1.05rem;
+      animation: none;
+    }
   }
   
   /* REDUCED MOTION */
   @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; animation: none !important; }
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
   }
   
   /* SMALL SCREEN TWEAKS */
   @media (max-width: 420px) {
-    .navbar-container { gap: 0.5rem; padding-left: 0.9rem; padding-right: 0.9rem; }
-    .navbar-logo { font-size: 1rem; }
-    .contact-btn { padding: 10px 14px; font-size: 0.95rem; }
+    .navbar-container {
+      gap: 0.5rem;
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+    .navbar-logo {
+      font-size: 1rem;
+    }
+    .contact-btn {
+      padding: 10px 14px;
+      font-size: 0.95rem;
+    }
   }
   

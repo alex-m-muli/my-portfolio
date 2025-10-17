@@ -88,7 +88,7 @@ const Contact = () => {
       }
     } catch (err) {
       console.error("Email send error:", err);
-      setStatus({ message: "⚠️ Failed to send message. Try again or email directly with email below.", type: "error" });
+      setStatus({ message: "⚠️ Failed to send message. Try again or email directly with email at the bottom.", type: "error" });
     } finally {
       setLoading(false);
     }
@@ -215,18 +215,6 @@ const Contact = () => {
           )}
         </div>
       </form>
-
-      <div className="contact-footer" role="contentinfo">
-        <p>
-          Direct email:{' '}
-          <a
-            href="mailto:businessdash01@gmail.com?subject=Portfolio Inquiry&body=Hi Alex,%20I’d%20like%20to..."
-            className="direct-email-link"
-          >
-            businessdash01@gmail.com
-          </a>
-        </p>
-      </div>
     </section>
   );
 };

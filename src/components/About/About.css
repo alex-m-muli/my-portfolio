@@ -1,38 +1,28 @@
 /* ===============================================================
-   src/components/About/About.css — Final Production Build
-   ===============================================================
-   Notes:
-   - Class names preserved to avoid breaking your existing markup
-   - Theme variables aligned with global palette (hero) but intentionally
-     tweaked for this section to provide visual rhythm (consistent, not identical)
-   - A top fade overlay is added so the transition from Hero feels "a bit"
-     seamless but clearly a new section
-   - Accessibility and reduced-motion respected
+   src/components/About/About.css — Final Build (Crossfade Avatars)
    =============================================================== */
 
    :root {
-    /* Color tokens chosen to harmonize with Hero but tuned for the About panel */
-    --about-accent-a: #6f43ff; /* slightly warmer purple */
-    --about-accent-b: #4fc3f7; /* shared cyan for harmony */
-    --about-accent-c: #00c48a; /* green slightly toned down */
-  
+    --about-accent-a: #6f43ff;
+    --about-accent-b: #4fc3f7;
+    --about-accent-c: #00c48a;
     --about-bg-top: rgba(12, 12, 60, 0.92);
     --about-bg-mid: rgba(16, 35, 84, 0.95);
     --about-bg-bottom: rgba(232, 238, 245, 0.98);
-  
     --about-text: #0c1cb8;
     --about-muted: #1f2937;
   }
   
+  /* Section */
   .about-section {
     padding: 6rem 2rem;
     background: linear-gradient(
       180deg,
-      rgb(4, 17, 44) 0%, /* light neutral top */
-      rgb(247, 247, 247) 50%, /* smooth mid blend */
-      rgb(34, 34, 68) 110% /* subtle soft grey-blue bottom */
+      rgb(4, 17, 44) 0%,
+      rgb(247, 247, 247) 50%,
+      rgb(34, 34, 68) 110%
     );
-    color: var(--about-text, #0a2a66);
+    color: var(--about-text);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -40,12 +30,11 @@
     transition: background 400ms ease;
   }
   
-  /* top fade to blend with Hero — subtle overlap to feel related but distinct */
   /* Title */
   .about-title {
     font-size: 2.6rem;
     font-weight: 700;
-    color: #0a2a66;
+    color: hsl(187, 100%, 50%);
     margin-bottom: 2.6rem;
     letter-spacing: 0.4px;
     animation: fadeInUp 1s ease both;
@@ -73,30 +62,59 @@
     z-index: 1;
   }
   
-  /* Avatar */
+  /* Avatar Container (Crossfade Layering) */
   .about-avatar {
     margin-top: 3.6rem;
-    flex: 0 0 220px;
+    flex: -20 0 300px;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    width: 300px;
+    height: 350px;
+    border-radius: 50%;
+    overflow: hidden;
   }
   
+  /* Base Avatar Image Style */
   .about-avatar img {
-    width: 260px;
-    height: 260px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    border: 3px solid rgba(79, 195, 247, 0.08);
-    box-shadow: 0 10px 30px rgba(2,6,23,0.28);
-    transition: transform 260ms cubic-bezier(.2,.9,.3,1), box-shadow 260ms ease, border-color 260ms ease;
-    will-change: transform;
+    border: 2px solid rgba(9, 187, 241, 0.993);
+    box-shadow: 0 10px 30px rgba(235, 63, 63, 0.932);
+    opacity: 0;
+    transform: scale(1.05) translateZ(0);
+    transition:
+      opacity 1.6s ease-in-out,
+      transform 1.6s cubic-bezier(.2,.9,.3,1),
+      box-shadow 260ms ease;
+    will-change: opacity, transform;
+    image-rendering: -webkit-optimize-contrast;
+    backface-visibility: hidden;
   }
-  .about-avatar img:hover,
-  .about-avatar img:focus {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 18px 44px rgba(2,6,23,0.36);
-    border-color: rgba(79,195,247,0.22);
+  
+  /* Active vs Inactive Crossfade */
+  .about-avatar img.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+  }
+  
+  .about-avatar img.inactive {
+    opacity: 0;
+    z-index: 1;
+  }
+  
+  /* Hover Glow */
+  .about-avatar:hover img.active,
+  .about-avatar:focus img.active {
+    transform: scale(1.04);
+    box-shadow: 0 18px 44px rgba(2, 6, 23, 0.36);
+    border-color: rgba(79, 195, 247, 0.22);
   }
   
   /* Content */
@@ -121,9 +139,14 @@
     margin-bottom: 2.2rem;
     opacity: 0.98;
   }
-  
-  .about-description strong { color: #06204f; }
-  .about-description em { color: var(--about-accent-b); font-weight: 500; font-style: normal; }
+  .about-description strong {
+    color: #06204f;
+  }
+  .about-description em {
+    color: var(--about-accent-b);
+    font-weight: 500;
+    font-style: normal;
+  }
   
   /* Stats */
   .about-stats {
@@ -132,31 +155,28 @@
     flex-wrap: wrap;
     gap: 1.6rem;
   }
-  
   .stat-card {
     flex: 1 1 160px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,246,255,0.94));
+    background: linear-gradient(180deg, rgba(8, 102, 224, 0.98), rgba(186, 4, 231, 0.94));
     border-radius: 14px;
     padding: 1.4rem 1.1rem;
     text-align: center;
-    box-shadow: 0 8px 18px rgba(12, 38, 94, 0.06);
+    box-shadow: 0 8px 18px rgba(5, 84, 255, 0.06);
     transition: transform 260ms cubic-bezier(.2,.9,.3,1), box-shadow 260ms ease;
     cursor: default;
   }
   .stat-card:hover,
   .stat-card:focus {
     transform: translateY(-8px);
-    box-shadow: 0 14px 34px rgba(12, 38, 94, 0.12);
+    box-shadow: 0 14px 34px rgba(233, 116, 7, 0.486);
     outline: none;
   }
-  
   .stat-card h4 {
     font-size: 1.9rem;
     font-weight: 800;
-    color: #3fdd0fcb;
+    color: #1af107ea;
     margin-bottom: 0.25rem;
   }
-  
   .stat-card p {
     font-size: 1rem;
     font-weight: 600;
@@ -164,31 +184,73 @@
   }
   
   /* Animations */
-  @keyframes contentFade { from { opacity: 0; transform: translateY(14px); } to { opacity:1; transform: translateY(0);} }
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px);} to { opacity:1; transform: translateY(0);} }
-  @keyframes fadeIn { from { opacity:0; transform: scale(0.98);} to { opacity:1; transform: scale(1);} }
+  @keyframes contentFade {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; animation: none !important; }
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
   }
   
   /* Responsive */
   @media (max-width: 920px) {
-    .about-container { gap: 2rem; }
-    .about-avatar { margin-top: 2rem; }
+    .about-container {
+      gap: 2rem;
+    }
+    .about-avatar {
+      margin-top: 2rem;
+    }
   }
   
   @media (max-width: 768px) {
-    .about-container { flex-direction: column; text-align: center; }
-    .about-content { text-align: center; max-width: 100%; }
-    .about-avatar { margin: 0 auto 1.2rem auto; }
-    .about-avatar img { width: 220px; height: 220px; }
-    .about-stats { justify-content: center; }
+    .about-container {
+      flex-direction: column;
+      text-align: center;
+    }
+    .about-content {
+      text-align: center;
+      max-width: 100%;
+    }
+    .about-avatar {
+      margin: 0 auto 1.2rem auto;
+      width: 220px;
+      height: 260px;
+    }
+    .about-stats {
+      justify-content: center;
+    }
   }
   
   @media (max-width: 480px) {
-    .about-title { font-size: 2rem; }
-    .about-description { font-size: 1rem; }
-    .stat-card { padding: 1rem 0.9rem; }
-  }  
+    .about-title {
+      font-size: 2rem;
+    }
+    .about-description {
+      font-size: 1rem;
+    }
+    .stat-card {
+      padding: 1rem 0.9rem;
+    }
+  }
+  

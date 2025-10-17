@@ -1,9 +1,9 @@
 // src/App.jsx
-// Description: Main app entry point — renders Navbar, Hero, and available sections.
+// Description: Main app entry point — renders Navbar, Hero, and all sections.
 // Notes:
-// - Uses react-helmet-async for global SEO tags.
-// - Non-existing components are commented out for now.
-// - To enable a section: uncomment its import and <Section /> call.
+// - Includes SEO + Open Graph tags using react-helmet-async
+// - Ensure `public/og-image.png` exists before deployment
+// - Replace "alexmuli.netlify.app" below with your actual Netlify domain after deployment
 
 import React from "react";
 import { Helmet } from "react-helmet-async";
@@ -23,77 +23,64 @@ import "./styles/global.css";
 const App = () => {
   return (
     <>
-      {/* --- Global SEO Meta Tags --- */}
+      {/* 🌐 Global SEO + Open Graph Meta Tags */}
       <Helmet>
-        <title>Alex M. Muli — Fullstack Software Engineer | AI & ML</title>
+        <title>Alex M. Muli | Fullstack Software Engineer & AI/ML Specialist</title>
+
         <meta
           name="description"
-          content="Portfolio of Alex M. Muli: Fullstack Engineer specializing in React, Node.js, AI/ML, and scalable systems. Explore projects, skills, and professional experience."
+          content="Portfolio of Alex M. Muli — Fullstack Software Engineer specializing in React, Node.js, and AI/ML solutions. Explore projects, experience, and contact details."
         />
         <meta
           name="keywords"
-          content="Fullstack Developer, AI Engineer, Machine Learning, React, Node.js, Data Analyst, Portfolio, Cloud Architect"
+          content="Alex Muli, Fullstack Developer, AI Engineer, Machine Learning, React, Node.js, Developer Portfolio, Cloud, Kenya"
         />
 
-        {/* Open Graph for social previews */}
+        {/* ✅ Open Graph for link previews */}
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="Alex M. Muli — Fullstack Software Engineer"
+          content="Alex M. Muli | Fullstack Software Engineer & AI/ML Specialist"
         />
         <meta
           property="og:description"
-          content="Building production-grade applications and AI solutions. View projects, skills, and contact for collaboration."
+          content="Explore production-grade web apps, AI/ML solutions, and creative engineering by Alex M. Muli."
         />
-        <meta property="og:url" content="https://your-portfolio.com/" />
+        <meta property="og:url" content="https://alexmuli.netlify.app/" />
         <meta
           property="og:image"
-          content="https://your-portfolio.com/og-preview.png"
+          content="%PUBLIC_URL%/og-image.png"
         />
 
-        {/* Twitter Card */}
+        {/* ✅ Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Alex M. Muli — Fullstack Software Engineer"
+          content="Alex M. Muli | Fullstack Software Engineer & AI/ML Specialist"
         />
         <meta
           name="twitter:description"
-          content="Explore projects in web development, AI, and data analysis by Alex M. Muli."
+          content="Explore production-grade web and AI projects by Alex M. Muli."
         />
         <meta
           name="twitter:image"
-          content="https://your-portfolio.com/og-preview.png"
+          content="%PUBLIC_URL%/og-image.png"
         />
+
+        {/* ✅ Optional Favicon + Theme Color */}
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="theme-color" content="#0b1220" />
       </Helmet>
 
-      {/* ✅ Fixed Navbar */}
+      {/* ✅ Layout */}
       <Navbar />
-
-      {/* ✅ Hero Section (acts as Home) */}
       <Hero />
-
-      {/* ✅ About Section */}
       <About />
-
-      {/* ✅ Experience Section */}
       <Experience />
-
-      {/* ✅ Skills Section */}
       <Skills />
-
-      {/* ✅ Projects Section */}
       <Projects />
-
-      {/* ✅ Testimonials Section */}
       <Testimonials />
-
-      {/* ✅ Contact Section */}
       <Contact />
-
-      {/* 🚧 Future Sections (uncomment as you build) */}
-
-      {/* ✅ Footer Section */}
       <Footer />
     </>
   );
