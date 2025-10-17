@@ -1,4 +1,4 @@
-// ===============================================================
+// =============================================================== 
 // src/components/Skills/Skills.jsx — God-Tier Icon Enhanced
 // ===============================================================
 // - Dynamic icon mapping via React Icons
@@ -9,7 +9,6 @@
 // ===============================================================
 
 import React, { useEffect, useRef, memo } from "react";
-import { Helmet } from "react-helmet-async";
 import {
   FaReact,
   FaNodeJs,
@@ -86,25 +85,24 @@ const Skills = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Skills — Alex M. Muli Portfolio</title>
-        <meta
-          name="description"
-          content="Explore Alex M. Muli's 2025 full-stack and AI expertise — React, TypeScript, Node.js, Kubernetes, MLOps, and Cloud systems."
-        />
-        <meta
-          name="keywords"
-          content="React, TypeScript, Node.js, Kubernetes, Docker, MLOps, AI, Terraform, GraphQL, DevSecOps"
-        />
-        <meta property="og:title" content="Skills — Alex M. Muli Portfolio" />
-        <meta
-          property="og:description"
-          content="Discover Alex M. Muli's technical mastery across AI, cloud-native, and full-stack engineering."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://your-portfolio.com/#skills" />
-        <meta property="og:image" content="https://your-portfolio.com/skills-preview.png" />
-      </Helmet>
+      {/* SEO + Social Meta Tags (auto-hoisted in React 19) */}
+      <title>Skills — Alex M. Muli Portfolio</title>
+      <meta
+        name="description"
+        content="Explore Alex M. Muli's 2025 full-stack and AI expertise — React, TypeScript, Node.js, Kubernetes, MLOps, and Cloud systems."
+      />
+      <meta
+        name="keywords"
+        content="React, TypeScript, Node.js, Kubernetes, Docker, MLOps, AI, Terraform, GraphQL, DevSecOps"
+      />
+      <meta property="og:title" content="Skills — Alex M. Muli Portfolio" />
+      <meta
+        property="og:description"
+        content="Discover Alex M. Muli's technical mastery across AI, cloud-native, and full-stack engineering."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://your-portfolio.com/#skills" />
+      <meta property="og:image" content="https://your-portfolio.com/skills-preview.png" />
 
       <section id="skills" className="skills-section" aria-labelledby="skills-title">
         <h2 id="skills-title" className="skills-title">

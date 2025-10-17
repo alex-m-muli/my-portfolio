@@ -8,7 +8,6 @@
 // - Form freeze while sending (aria-busy) and clear stable cleanup
 
 import React, { useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import "./Contact.css";
 
 const Contact = () => {
@@ -96,20 +95,18 @@ const Contact = () => {
 
   return (
     <section id="contact" className="contact-section" aria-labelledby="contact-heading">
-      <Helmet>
-        {/* SEO + Open Graph tags (hardcoded) */}
-        <title>Contact | Alex M. Muli - Fullstack Developer</title>
-        <meta
-          name="description"
-          content="Get in touch with Alex M. Muli — Fullstack Developer creating world-class, scalable, and creative software solutions. Send a message directly."
-        />
-        <meta name="keywords" content="Alex M. Muli, contact, developer, portfolio, Kenya" />
-        <meta property="og:title" content="Contact | Alex M. Muli" />
-        <meta property="og:description" content="Reach out for collaborations or opportunities." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://alexmuli.dev/contact" />
-        <meta property="og:image" content="https://alexmuli.dev/preview.jpg" />
-      </Helmet>
+      {/* SEO + Open Graph tags (hardcoded) */}
+      <title>Contact | Alex M. Muli - Fullstack Developer</title>
+      <meta
+        name="description"
+        content="Get in touch with Alex M. Muli — Fullstack Developer creating world-class, scalable, and creative software solutions. Send a message directly."
+      />
+      <meta name="keywords" content="Alex M. Muli, contact, developer, portfolio, Kenya" />
+      <meta property="og:title" content="Contact | Alex M. Muli" />
+      <meta property="og:description" content="Reach out for collaborations or opportunities." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://alexmuli.dev/contact" />
+      <meta property="og:image" content="https://alexmuli.dev/preview.jpg" />
 
       <div className="contact-header">
         <h2 id="contact-heading">Let’s Connect</h2>

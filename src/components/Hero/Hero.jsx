@@ -1,4 +1,4 @@
-// FILE: src/components/Hero/Hero.jsx
+// FILE: src/components/Hero/Hero.jsx 
 // Final production-ready, fully integrated upgrade (UI + perf + a11y + SEO)
 // - Preserves all original class names (no breaking renames)
 // - DPR-aware canvas, reduced-motion support, efficient resize handling
@@ -7,7 +7,6 @@
 // - Hardcoded SEO + Open Graph + Twitter meta tags preserved
 
 import React, { useEffect, useRef, useCallback } from "react";
-import { Helmet } from "react-helmet-async";
 import "./Hero.css";
 
 export default function Hero() {
@@ -203,25 +202,23 @@ export default function Hero() {
   return (
     <header className="hero" role="banner" aria-label="Hero — Alex M. Muli">
       {/* SEO + Open Graph + Twitter (hardcoded as requested) */}
-      <Helmet>
-        <title>Alex M. Muli — Fullstack Software Engineer | AI & ML | Data Analyst</title>
-        <meta
-          name="description"
-          content="Portfolio of Alex M. Muli: Fullstack Engineer focused on React, Node.js, AI/ML and scalable production systems. Explore projects, data work, and professional experience."
-        />
-        <meta name="keywords" content="Fullstack Developer, AI Engineer, Machine Learning, React, Node.js, Data Analyst, Portfolio" />
+      <title>Alex M. Muli — Fullstack Software Engineer | AI & ML | Data Analyst</title>
+      <meta
+        name="description"
+        content="Portfolio of Alex M. Muli: Fullstack Engineer focused on React, Node.js, AI/ML and scalable production systems. Explore projects, data work, and professional experience."
+      />
+      <meta name="keywords" content="Fullstack Developer, AI Engineer, Machine Learning, React, Node.js, Data Analyst, Portfolio" />
 
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Alex M. Muli — Fullstack Software Engineer" />
-        <meta property="og:description" content="Building production-grade web apps and AI solutions. View projects and contact for collaboration." />
-        <meta property="og:url" content="https://your-portfolio.com/" />
-        <meta property="og:image" content="https://your-portfolio.com/og-preview.png" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content="Alex M. Muli — Fullstack Software Engineer" />
+      <meta property="og:description" content="Building production-grade web apps and AI solutions. View projects and contact for collaboration." />
+      <meta property="og:url" content="https://your-portfolio.com/" />
+      <meta property="og:image" content="https://your-portfolio.com/og-preview.png" />
 
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Alex M. Muli — Fullstack Software Engineer" />
-        <meta name="twitter:description" content="Explore projects in web development, AI, and data analysis by Alex M. Muli." />
-        <meta name="twitter:image" content="https://your-portfolio.com/og-preview.png" />
-      </Helmet>
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Alex M. Muli — Fullstack Software Engineer" />
+      <meta name="twitter:description" content="Explore projects in web development, AI, and data analysis by Alex M. Muli." />
+      <meta name="twitter:image" content="https://your-portfolio.com/og-preview.png" />
 
       <canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" />
 
@@ -248,5 +245,3 @@ export default function Hero() {
     </header>
   );
 }
-
-

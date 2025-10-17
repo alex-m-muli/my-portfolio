@@ -1,4 +1,4 @@
-// ===============================================================
+// =============================================================== 
 // src/components/Experience/Experience.jsx — Final God-tier Build
 // ===============================================================
 // - Card-based professional timeline (polished layout, animated reveal)
@@ -8,7 +8,6 @@
 // ===============================================================
 
 import React, { useEffect, useRef } from "react";
-import { Helmet } from "react-helmet-async";
 import "./Experience.css";
 
 /**
@@ -129,19 +128,17 @@ const Experience = () => {
       ref={containerRef}
     >
       {/* SEO and Open Graph meta */}
-      <Helmet>
-        <title>Professional Experience | Alex M. Muli - Fullstack Developer</title>
-        <meta
-          name="description"
-          content="Explore Alex M. Muli’s professional experience — from building AI-driven dashboards at Safaricom to global cloud solutions with Microsoft and Andela."
-        />
-        <meta property="og:title" content="Alex M. Muli | Professional Experience" />
-        <meta
-          property="og:description"
-          content="A decade of impactful software development — scalable systems, data analytics, and elegant engineering across global firms."
-        />
-        <meta property="og:type" content="website" />
-      </Helmet>
+      <title>Professional Experience | Alex M. Muli - Fullstack Developer</title>
+      <meta
+        name="description"
+        content="Explore Alex M. Muli’s professional experience — from building AI-driven dashboards at Safaricom to global cloud solutions with Microsoft and Andela."
+      />
+      <meta property="og:title" content="Alex M. Muli | Professional Experience" />
+      <meta
+        property="og:description"
+        content="A decade of impactful software development — scalable systems, data analytics, and elegant engineering across global firms."
+      />
+      <meta property="og:type" content="website" />
 
       {/* Section Header */}
       <div className="experience-header">

@@ -7,7 +7,6 @@
 // - Perfect container sizing, responsive and pixel-aligned
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaQuoteLeft,
@@ -178,29 +177,27 @@ const Testimonials = () => {
       className="testimonials-section"
       aria-label="Testimonials Section"
     >
-      {/* 🧭 SEO + Social Meta */}
-      <Helmet>
-        <title>Testimonials | Alex M. Muli - Fullstack Developer</title>
-        <meta
-          name="description"
-          content="Testimonials from professionals and clients about Alex M. Muli — Fullstack Developer known for precision, reliability, and innovation."
-        />
-        <meta
-          name="keywords"
-          content="Alex M. Muli, testimonials, client feedback, software engineer, React developer, Node.js, Kenya"
-        />
-        <meta
-          property="og:title"
-          content="Testimonials | Alex M. Muli - Fullstack Developer"
-        />
-        <meta
-          property="og:description"
-          content="Discover what clients and engineers say about Alex M. Muli — building global-quality digital solutions."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://alexmuli.dev/testimonials" />
-        <meta property="og:image" content="https://alexmuli.dev/preview.jpg" />
-      </Helmet>
+      {/* 🧭 SEO + Social Meta (React 19 native head management) */}
+      <title>Testimonials | Alex M. Muli - Fullstack Developer</title>
+      <meta
+        name="description"
+        content="Testimonials from professionals and clients about Alex M. Muli — Fullstack Developer known for precision, reliability, and innovation."
+      />
+      <meta
+        name="keywords"
+        content="Alex M. Muli, testimonials, client feedback, software engineer, React developer, Node.js, Kenya"
+      />
+      <meta
+        property="og:title"
+        content="Testimonials | Alex M. Muli - Fullstack Developer"
+      />
+      <meta
+        property="og:description"
+        content="Discover what clients and engineers say about Alex M. Muli — building global-quality digital solutions."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://alexmuli.dev/testimonials" />
+      <meta property="og:image" content="https://alexmuli.dev/preview.jpg" />
 
       {/* 🧩 Header */}
       <div className="testimonials-header">

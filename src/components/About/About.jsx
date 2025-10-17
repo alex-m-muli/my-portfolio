@@ -8,7 +8,6 @@
 // ===============================================================
 
 import React, { memo, useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import avatar0 from "../../assets/avatar0.png";
 import avatar1 from "../../assets/avatar1.png";
 import avatar2 from "../../assets/avatar2.png";
@@ -35,32 +34,30 @@ const About = () => {
 
   return (
     <section id="about" className="about-section" aria-labelledby="about-title">
-      <Helmet>
-        <title>About | Alex M. Muli — Fullstack Software Engineer & AI/ML Expert</title>
-        <meta
-          name="description"
-          content="Learn about Alex M. Muli, a Fullstack Software Engineer with expertise in React, Node.js, AI/ML, Cloud Computing, DevOps, Data Analysis, and cybersecurity best practices."
-        />
-        <meta
-          name="keywords"
-          content="Alex M. Muli, Fullstack Software Engineer, AI/ML Specialist, Cloud Computing, DevOps, Cybersecurity, React, Node.js, Portfolio, 2025 Skills"
-        />
-        <meta property="og:type" content="profile" />
-        <meta property="og:title" content="About Alex M. Muli — Fullstack Engineer & AI/ML Specialist" />
-        <meta
-          property="og:description"
-          content="Discover Alex M. Muli’s journey as a Fullstack Software Engineer with deep expertise in AI/ML, Cloud, DevOps, API development, cybersecurity, and scalable systems."
-        />
-        <meta property="og:image" content="https://your-portfolio.com/avatar0.png" />
-        <meta property="og:url" content="https://your-portfolio.com/about" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="About Alex M. Muli — Fullstack Engineer & AI/ML Specialist" />
-        <meta
-          name="twitter:description"
-          content="Explore the profile of Alex M. Muli, a versatile software engineer and AI/ML expert delivering scalable apps and data-driven solutions."
-        />
-        <meta name="twitter:image" content="https://your-portfolio.com/avatar0.png" />
-      </Helmet>
+      <title>About | Alex M. Muli — Fullstack Software Engineer & AI/ML Expert</title>
+      <meta
+        name="description"
+        content="Learn about Alex M. Muli, a Fullstack Software Engineer with expertise in React, Node.js, AI/ML, Cloud Computing, DevOps, Data Analysis, and cybersecurity best practices."
+      />
+      <meta
+        name="keywords"
+        content="Alex M. Muli, Fullstack Software Engineer, AI/ML Specialist, Cloud Computing, DevOps, Cybersecurity, React, Node.js, Portfolio, 2025 Skills"
+      />
+      <meta property="og:type" content="profile" />
+      <meta property="og:title" content="About Alex M. Muli — Fullstack Engineer & AI/ML Specialist" />
+      <meta
+        property="og:description"
+        content="Discover Alex M. Muli’s journey as a Fullstack Software Engineer with deep expertise in AI/ML, Cloud, DevOps, API development, cybersecurity, and scalable systems."
+      />
+      <meta property="og:image" content="https://your-portfolio.com/avatar0.png" />
+      <meta property="og:url" content="https://your-portfolio.com/about" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="About Alex M. Muli — Fullstack Engineer & AI/ML Specialist" />
+      <meta
+        name="twitter:description"
+        content="Explore the profile of Alex M. Muli, a versatile software engineer and AI/ML expert delivering scalable apps and data-driven solutions."
+      />
+      <meta name="twitter:image" content="https://your-portfolio.com/avatar0.png" />
 
       <h2 id="about-title" className="about-title">About Me</h2>
 
