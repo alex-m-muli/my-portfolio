@@ -1,23 +1,17 @@
-// src/components/Footer/Footer.jsx
 /**
- * ⚡ God-tier Footer Component (2025 Upgrade)
+ * ⚡ God-tier Footer Component (2025 React 19 Upgrade)
  * --------------------------------------------------------------
- * - Adds social media links (LinkedIn, X, GitHub)
+ * - Social media links (LinkedIn, X, GitHub)
  * - Glowing hover accents per brand color
- * - SEO + Open Graph + Twitter meta fully structured
+ * - SEO + Open Graph + Twitter meta (React 19-native)
  * - Animated line + back-to-top orb retained
- * - Accessible and responsive
+ * - Accessible, responsive, and production-grade
  */
 
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import {
-  FaLinkedin,
-  FaXTwitter,
-  FaGithub,
-} from "react-icons/fa6";
+import { FaLinkedin, FaXTwitter, FaGithub } from "react-icons/fa6";
 import "./Footer.css";
 
 export default function Footer() {
@@ -35,42 +29,41 @@ export default function Footer() {
 
   return (
     <>
-      {/* 🧠 SEO + Social Meta Tags */}
-      <Helmet>
-        <title>Alex M. Muli | Fullstack Software Engineer</title>
-        <meta
-          name="description"
-          content="Connect with Alex M. Muli — Fullstack Software Engineer passionate about technology, AI, and world-class design."
-        />
-        <meta property="og:title" content="Alex M. Muli | Fullstack Developer" />
-        <meta
-          property="og:description"
-          content="Explore Alex’s projects, learn about his skills, and get in touch for collaborations or opportunities."
-        />
-        <meta
-          property="og:image"
-          content="https://yourdomain.com/assets/preview-footer.jpg"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Alex M. Muli | Fullstack Engineer" />
-        <meta
-          name="twitter:description"
-          content="Building powerful digital experiences with creativity and precision."
-        />
-        <meta
-          name="twitter:image"
-          content="https://yourdomain.com/assets/preview-footer.jpg"
-        />
-      </Helmet>
+      {/* 🧠 SEO + Social Meta Tags (React 19-native) */}
+      <title>Alex M. Muli | Fullstack Software Engineer</title>
+      <meta
+        name="description"
+        content="Connect with Alex M. Muli — Fullstack Software Engineer passionate about technology, AI, and world-class design."
+      />
+      <meta property="og:title" content="Alex M. Muli | Fullstack Developer" />
+      <meta
+        property="og:description"
+        content="Explore Alex’s projects, learn about his skills, and get in touch for collaborations or opportunities."
+      />
+      <meta
+        property="og:image"
+        content="https://iconicglobaltech.netlify.app/og-preview.png"
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta property="og:site_name" content="Alex M. Muli Portfolio" />
+      <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Alex M. Muli | Fullstack Engineer" />
+      <meta
+        name="twitter:description"
+        content="Building powerful digital experiences with creativity and precision."
+      />
+      <meta
+        name="twitter:image"
+        content="https://iconicglobaltech.netlify.app/og-preview.png"
+      />
 
       {/* 🌌 Footer Section */}
       <footer className="footer-container" role="contentinfo">
         <div className="footer-content">
           <p className="footer-text">
-            Made with 💙 by <strong>Alex M. Muli</strong> — ©{" "}
-            {new Date().getFullYear()} All Rights Reserved.
+            Made with 💙 by <strong>Alex M. Muli</strong> — © {new Date().getFullYear()} All Rights Reserved.
           </p>
 
           {/* ✉️ Email */}

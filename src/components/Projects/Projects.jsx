@@ -10,7 +10,6 @@
 // ===============================================================
 
 import React, { useEffect, useRef, memo } from "react";
-import { Helmet } from "react-helmet-async";
 import "./Projects.css";
 
 // Updated image imports (two per project)
@@ -108,7 +107,7 @@ const Projects = () => {
           }
         });
       },
-      { threshold: 0.3 } // Trigger when 30% of the card is visible
+      { threshold: 0.3 }
     );
 
     cards.forEach((card, idx) => {
@@ -121,38 +120,39 @@ const Projects = () => {
 
   return (
     <section id="projects" className="projects-section" aria-labelledby="projects-title">
-      <Helmet>
-        <title>Projects | Alex M. Muli — Fullstack & AI Engineer</title>
-        <meta
-          name="description"
-          content="Explore Alex M. Muli's portfolio projects: AI-powered tools, DeFi dashboards, enterprise-grade GPT integrations, and smart home automation solutions."
-        />
-        <meta
-          name="keywords"
-          content="Alex M. Muli, projects, portfolio, AI, Machine Learning, Fullstack, React, Node.js, Web3, ChatGPT, IoT"
-        />
-        <meta property="og:title" content="Alex M. Muli Projects" />
-        <meta
-          property="og:description"
-          content="Showcasing cutting-edge projects by Alex M. Muli, a world-class fullstack and AI engineer."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://your-portfolio.com/projects" />
-        <meta
-          property="og:image"
-          content="https://your-portfolio.com/assets/images/projects-preview.png"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Projects | Alex M. Muli" />
-        <meta
-          name="twitter:description"
-          content="Selected projects by Alex M. Muli — fullstack, AI and cloud engineering."
-        />
-        <meta
-          name="twitter:image"
-          content="https://your-portfolio.com/assets/images/projects-preview.png"
-        />
-      </Helmet>
+      {/* ✅ React 19 Native Metadata */}
+      <title>Projects | Alex M. Muli — Fullstack & AI Engineer</title>
+      <meta
+        name="description"
+        content="Explore Alex M. Muli's portfolio projects: AI-powered tools, DeFi dashboards, enterprise-grade GPT integrations, and smart home automation solutions."
+      />
+      <meta
+        name="keywords"
+        content="Alex M. Muli, projects, portfolio, AI, Machine Learning, Fullstack, React, Node.js, Web3, ChatGPT, IoT"
+      />
+      <meta property="og:title" content="Alex M. Muli Projects" />
+      <meta
+        property="og:description"
+        content="Showcasing cutting-edge projects by Alex M. Muli, a world-class fullstack and AI engineer."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta
+        property="og:image"
+        content="https://iconicglobaltech.netlify.app/og-preview.png"
+      />
+      <meta property="og:site_name" content="Alex M. Muli Portfolio" />
+      <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Projects | Alex M. Muli" />
+      <meta
+        name="twitter:description"
+        content="Selected projects by Alex M. Muli — fullstack, AI and cloud engineering."
+      />
+      <meta
+        name="twitter:image"
+        content="https://iconicglobaltech.netlify.app/og-preview.png"
+      />
 
       <h2 id="projects-title" className="projects-title">
         Selected Projects

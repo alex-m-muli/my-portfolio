@@ -1,4 +1,4 @@
-// File: src/components/Testimonials/Testimonials.jsx
+// src/components/Testimonials/Testimonials.jsx — Updated for React 19 native metadata
 // 💬 Final God-tier Testimonials component (synced with new compact footer)
 // - Tightened section spacing to harmonize with smaller footer
 // - Slightly slower + smoother transitions for elegance
@@ -7,7 +7,6 @@
 // - Perfect container sizing, responsive and pixel-aligned
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaQuoteLeft,
@@ -72,7 +71,7 @@ const Testimonials = () => {
   const resumeTimeoutRef = useRef(null);
 
   // ⚙️ Tuned Config (slightly slower animations)
-  const BASE_INTERVAL_MS = 6500; // smoother rotation pace
+  const BASE_INTERVAL_MS = 6500;
   const STAGGER_MS = 1100;
   const RESUME_DELAY_MS = 900;
 
@@ -113,7 +112,6 @@ const Testimonials = () => {
     [clearAllIntervals, startIntervalForCard, testimonials]
   );
 
-  // 🧠 Lifecycle: manage intervals
   useEffect(() => {
     const prefersReduced = window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -135,7 +133,6 @@ const Testimonials = () => {
     };
   }, [paused, clearAllIntervals, startAllIntervals]);
 
-  // 🕹️ Manual Navigation
   const handlePrev = (i) =>
     setIndexes((prev) =>
       prev.map((v, idx) => (idx === i ? (v - 1 + testimonials[i].length) % testimonials[i].length : v))
@@ -146,7 +143,6 @@ const Testimonials = () => {
       prev.map((v, idx) => (idx === i ? (v + 1) % testimonials[i].length : v))
     );
 
-  // ⏸️ Pause/Resume logic
   const pauseAll = () => {
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     setPaused(true);
@@ -158,13 +154,11 @@ const Testimonials = () => {
     }, delay);
   };
 
-  // ⌨️ Keyboard nav
   const handleKeyNav = (e, i) => {
     if (e.key === "ArrowLeft") handlePrev(i);
     else if (e.key === "ArrowRight") handleNext(i);
   };
 
-  // ✨ Framer Motion variants (softer, longer)
   const variants = {
     initial: { opacity: 0, y: 14, scale: 0.995 },
     animate: { opacity: 1, y: 0, scale: 1 },
@@ -179,28 +173,35 @@ const Testimonials = () => {
       aria-label="Testimonials Section"
     >
       {/* 🧭 SEO + Social Meta */}
-      <Helmet>
-        <title>Testimonials | Alex M. Muli - Fullstack Developer</title>
-        <meta
-          name="description"
-          content="Testimonials from professionals and clients about Alex M. Muli — Fullstack Developer known for precision, reliability, and innovation."
-        />
-        <meta
-          name="keywords"
-          content="Alex M. Muli, testimonials, client feedback, software engineer, React developer, Node.js, Kenya"
-        />
-        <meta
-          property="og:title"
-          content="Testimonials | Alex M. Muli - Fullstack Developer"
-        />
-        <meta
-          property="og:description"
-          content="Discover what clients and engineers say about Alex M. Muli — building global-quality digital solutions."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://alexmuli.dev/testimonials" />
-        <meta property="og:image" content="https://alexmuli.dev/preview.jpg" />
-      </Helmet>
+      <title>Testimonials | Alex M. Muli - Fullstack Developer</title>
+      <meta
+        name="description"
+        content="Testimonials from professionals and clients about Alex M. Muli — Fullstack Developer known for precision, reliability, and innovation."
+      />
+      <meta
+        name="keywords"
+        content="Alex M. Muli, testimonials, client feedback, software engineer, React developer, Node.js, Kenya"
+      />
+      <meta
+        property="og:title"
+        content="Testimonials | Alex M. Muli - Fullstack Developer"
+      />
+      <meta
+        property="og:description"
+        content="Discover what clients and engineers say about Alex M. Muli — building global-quality digital solutions."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta property="og:image" content="https://iconicglobaltech.netlify.app/og-preview.png" />
+      <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
+      <meta property="og:site_name" content="Alex M. Muli Portfolio" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Testimonials | Alex M. Muli" />
+      <meta
+        name="twitter:description"
+        content="Testimonials highlighting Alex M. Muli’s impact as a Fullstack and AI developer."
+      />
+      <meta name="twitter:image" content="https://iconicglobaltech.netlify.app/og-preview.png" />
 
       {/* 🧩 Header */}
       <div className="testimonials-header">

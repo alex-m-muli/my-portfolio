@@ -1,5 +1,5 @@
 // ===============================================================
-// src/components/Experience/Experience.jsx — Final God-tier Build
+// src/components/Experience/Experience.jsx — Final God-tier Build (React 19 SEO-Native)
 // ===============================================================
 // - Card-based professional timeline (polished layout, animated reveal)
 // - Semantic HTML5 sections: <article>, <header>, <footer>
@@ -8,7 +8,6 @@
 // ===============================================================
 
 import React, { useEffect, useRef } from "react";
-import { Helmet } from "react-helmet-async";
 import "./Experience.css";
 
 /**
@@ -128,20 +127,33 @@ const Experience = () => {
       aria-labelledby="exp-title"
       ref={containerRef}
     >
-      {/* SEO and Open Graph meta */}
-      <Helmet>
-        <title>Professional Experience | Alex M. Muli - Fullstack Developer</title>
-        <meta
-          name="description"
-          content="Explore Alex M. Muli’s professional experience — from building AI-driven dashboards at Safaricom to global cloud solutions with Microsoft and Andela."
-        />
-        <meta property="og:title" content="Alex M. Muli | Professional Experience" />
-        <meta
-          property="og:description"
-          content="A decade of impactful software development — scalable systems, data analytics, and elegant engineering across global firms."
-        />
-        <meta property="og:type" content="website" />
-      </Helmet>
+      {/* === React 19 Native Metadata === */}
+      <title>Professional Experience | Alex M. Muli — Fullstack Developer</title>
+      <meta
+        name="description"
+        content="Explore Alex M. Muli’s professional experience — from building AI-driven dashboards at Safaricom to global cloud solutions with Microsoft and Andela."
+      />
+      <meta
+        name="keywords"
+        content="Alex M. Muli, Fullstack Developer, Software Engineer, Safaricom, Microsoft, Andela, Experience, Portfolio, Kenya, Global Developer"
+      />
+      <meta property="og:type" content="profile" />
+      <meta property="og:title" content="Alex M. Muli | Professional Experience" />
+      <meta
+        property="og:description"
+        content="A decade of impactful software development — scalable systems, data analytics, and elegant engineering across global firms."
+      />
+      <meta property="og:image" content="https://iconicglobaltech.netlify.app/og-preview.png" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta property="og:site_name" content="Alex M. Muli Portfolio" />
+      <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Alex M. Muli | Professional Experience" />
+      <meta
+        name="twitter:description"
+        content="Explore Alex M. Muli’s extensive professional background — from Safaricom enterprise AI projects to global fullstack engineering roles."
+      />
+      <meta name="twitter:image" content="https://iconicglobaltech.netlify.app/og-preview.png" />
 
       {/* Section Header */}
       <div className="experience-header">

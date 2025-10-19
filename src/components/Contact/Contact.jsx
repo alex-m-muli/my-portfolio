@@ -1,14 +1,10 @@
 // src/components/Contact/Contact.jsx
-// Final production-ready Contact component
-// - Preserves all class names and SEO tags (hardcoded)
-// - Netlify function endpoint preserved: /.netlify/functions/sendEmail
-// - Improved accessibility (labels, aria-describedby, aria-invalid, aria-live)
-// - Honeypot field to reduce spam
-// - Client-side validation with inline error hints + keyboard-friendly focus
-// - Form freeze while sending (aria-busy) and clear stable cleanup
+// ✅ Final React 19-ready Contact component
+// - Removed react-helmet-async (React 19 auto-hoists <title>/<meta>)
+// - Preserves all SEO + OG tags directly in JSX
+// - All behavior, validation, and styling unchanged
 
 import React, { useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import "./Contact.css";
 
 const Contact = () => {
@@ -17,7 +13,7 @@ const Contact = () => {
   const [status, setStatus] = useState({ message: "", type: "" });
   const [errors, setErrors] = useState({});
 
-  // Simple client-side validation
+  // 🧩 Validation logic (unchanged)
   const validateForm = (data) => {
     const newErrors = {};
     if (!data.from_name.trim()) newErrors.from_name = "Name is required.";
@@ -29,7 +25,6 @@ const Contact = () => {
     return newErrors;
   };
 
-  // Clear a single field error as user types
   const handleInputChange = (e) => {
     const { name } = e.target;
     if (errors[name]) {
@@ -39,19 +34,15 @@ const Contact = () => {
         return copy;
       });
     }
-    // also clear global status so users aren't confused after manual interaction
     if (status.message) setStatus({ message: "", type: "" });
   };
 
-  // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // honeypot check early (bots typically fill hidden fields)
     const formData = new FormData(formRef.current);
     const botField = formData.get("bot_field");
     if (botField) {
-      // Silent fail — pretend success to discourage automatic retries
       setStatus({ message: "Message sent successfully!", type: "success" });
       formRef.current.reset();
       return;
@@ -62,7 +53,10 @@ const Contact = () => {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setStatus({ message: "Please correct the highlighted fields.", type: "error" });
+      setStatus({
+        message: "Please correct the highlighted fields.",
+        type: "error",
+      });
       return;
     }
 
@@ -71,7 +65,6 @@ const Contact = () => {
 
     try {
       setLoading(true);
-
       const response = await fetch("/.netlify/functions/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -81,14 +74,24 @@ const Contact = () => {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        setStatus({ message: "✅ Message sent successfully! I’ll get back to you soon — thank you.", type: "success" });
+        setStatus({
+          message:
+            "✅ Message sent successfully! I’ll get back to you soon — thank you.",
+          type: "success",
+        });
         formRef.current.reset();
       } else {
-        throw new Error(result.error || "An error occurred while sending the message.");
+        throw new Error(
+          result.error || "An error occurred while sending the message."
+        );
       }
     } catch (err) {
       console.error("Email send error:", err);
-      setStatus({ message: "⚠️ Failed to send message. Try again or email directly with email at the bottom.", type: "error" });
+      setStatus({
+        message:
+          "⚠️ Failed to send message. Try again or email directly with the address below.",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -96,20 +99,48 @@ const Contact = () => {
 
   return (
     <section id="contact" className="contact-section" aria-labelledby="contact-heading">
-      <Helmet>
-        {/* SEO + Open Graph tags (hardcoded) */}
-        <title>Contact | Alex M. Muli - Fullstack Developer</title>
-        <meta
-          name="description"
-          content="Get in touch with Alex M. Muli — Fullstack Developer creating world-class, scalable, and creative software solutions. Send a message directly."
-        />
-        <meta name="keywords" content="Alex M. Muli, contact, developer, portfolio, Kenya" />
-        <meta property="og:title" content="Contact | Alex M. Muli" />
-        <meta property="og:description" content="Reach out for collaborations or opportunities." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://alexmuli.dev/contact" />
-        <meta property="og:image" content="https://alexmuli.dev/preview.jpg" />
-      </Helmet>
+      {/* 🧠 SEO + Open Graph metadata (native React 19 way) */}
+      <title>Contact | Alex M. Muli - Fullstack Developer</title>
+      <meta
+        name="description"
+        content="Get in touch with Alex M. Muli — Fullstack Developer creating world-class, scalable, and creative software solutions. Send a message directly."
+      />
+      <meta
+        name="keywords"
+        content="Alex M. Muli, contact, developer, portfolio, Kenya"
+      />
+      <meta property="og:title" content="Contact | Alex M. Muli" />
+      <meta
+        property="og:description"
+        content="Reach out for collaborations or opportunities."
+      />
+      <meta property="og:type" content="website" />
+      <meta
+        property="og:url"
+        content="https://iconicglobaltech.netlify.app/contact"
+      />
+      <meta
+        property="og:image"
+        content="https://iconicglobaltech.netlify.app/og-preview.png"
+      />
+      <meta
+        property="og:site_name"
+        content="Alex M. Muli Portfolio"
+      />
+      <meta
+        property="og:image:alt"
+        content="Alex M. Muli Portfolio Preview"
+      />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Contact | Alex M. Muli" />
+      <meta
+        name="twitter:description"
+        content="Reach out for collaborations or opportunities."
+      />
+      <meta
+        name="twitter:image"
+        content="https://iconicglobaltech.netlify.app/og-preview.png"
+      />
 
       <div className="contact-header">
         <h2 id="contact-heading">Let’s Connect</h2>
@@ -123,11 +154,19 @@ const Contact = () => {
         noValidate
         aria-busy={loading}
       >
-        {/* Accessible hidden labels for screen readers */}
-        <label htmlFor="from_name" className="sr-only">Your name</label>
-        <label htmlFor="reply_to" className="sr-only">Your email</label>
-        <label htmlFor="subject" className="sr-only">Subject</label>
-        <label htmlFor="message" className="sr-only">Your message</label>
+        {/* Screen reader labels */}
+        <label htmlFor="from_name" className="sr-only">
+          Your name
+        </label>
+        <label htmlFor="reply_to" className="sr-only">
+          Your email
+        </label>
+        <label htmlFor="subject" className="sr-only">
+          Subject
+        </label>
+        <label htmlFor="message" className="sr-only">
+          Your message
+        </label>
 
         <div className="form-row">
           <div className={`form-group ${errors.from_name ? "error-glow" : ""}`}>
@@ -138,11 +177,15 @@ const Contact = () => {
               placeholder="Your Name"
               onInput={handleInputChange}
               aria-invalid={!!errors.from_name}
-              aria-describedby={errors.from_name ? "error-from_name" : undefined}
+              aria-describedby={
+                errors.from_name ? "error-from_name" : undefined
+              }
               autoComplete="name"
             />
             {errors.from_name && (
-              <span id="error-from_name" className="error-text">{errors.from_name}</span>
+              <span id="error-from_name" className="error-text">
+                {errors.from_name}
+              </span>
             )}
           </div>
 
@@ -154,11 +197,15 @@ const Contact = () => {
               placeholder="Your Email"
               onInput={handleInputChange}
               aria-invalid={!!errors.reply_to}
-              aria-describedby={errors.reply_to ? "error-reply_to" : undefined}
+              aria-describedby={
+                errors.reply_to ? "error-reply_to" : undefined
+              }
               autoComplete="email"
             />
             {errors.reply_to && (
-              <span id="error-reply_to" className="error-text">{errors.reply_to}</span>
+              <span id="error-reply_to" className="error-text">
+                {errors.reply_to}
+              </span>
             )}
           </div>
         </div>
@@ -175,7 +222,9 @@ const Contact = () => {
             autoComplete="organization"
           />
           {errors.subject && (
-            <span id="error-subject" className="error-text">{errors.subject}</span>
+            <span id="error-subject" className="error-text">
+              {errors.subject}
+            </span>
           )}
         </div>
 
@@ -190,14 +239,22 @@ const Contact = () => {
             aria-describedby={errors.message ? "error-message" : undefined}
           />
           {errors.message && (
-            <span id="error-message" className="error-text">{errors.message}</span>
+            <span id="error-message" className="error-text">
+              {errors.message}
+            </span>
           )}
         </div>
 
-        {/* honeypot (hidden) to block basic bots */}
+        {/* Honeypot field */}
         <div aria-hidden="true" style={{ display: "none" }}>
           <label htmlFor="bot_field">Leave this field empty</label>
-          <input id="bot_field" name="bot_field" type="text" autoComplete="off" tabIndex={-1} />
+          <input
+            id="bot_field"
+            name="bot_field"
+            type="text"
+            autoComplete="off"
+            tabIndex={-1}
+          />
         </div>
 
         <button
@@ -209,9 +266,15 @@ const Contact = () => {
           {loading ? "Sending…" : "Send Message"}
         </button>
 
-        <div className="status-container" role="status" aria-live={status.type === "error" ? "assertive" : "polite"}>
+        <div
+          className="status-container"
+          role="status"
+          aria-live={status.type === "error" ? "assertive" : "polite"}
+        >
           {status.message && (
-            <p className={`status-message ${status.type}`}>{status.message}</p>
+            <p className={`status-message ${status.type}`}>
+              {status.message}
+            </p>
           )}
         </div>
       </form>
