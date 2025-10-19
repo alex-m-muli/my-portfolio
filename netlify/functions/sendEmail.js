@@ -1,21 +1,16 @@
 // netlify/functions/sendEmail.js
-import fetch from "node-fetch";
+// ✅ Ready-to-deploy Netlify serverless function for EmailJS
+// - Improved error handling
+// - Environment variables securely loaded
+// - Returns JSON responses for frontend consumption
 
-/**
- * Netlify Function: Secure EmailJS relay
- * ------------------------------------------------------------
- * This function runs on Netlify's server, so your credentials
- * are never exposed to the frontend or browser.
- *
- * Expects JSON body:
- *   { from_name, reply_to, subject, message }
- */
+import fetch from 'node-fetch';
 
 export async function handler(event) {
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: "Method not allowed" }),
+      body: JSON.stringify({ error: 'Method Not Allowed. Use POST.' }),
     };
   }
 
@@ -25,27 +20,27 @@ export async function handler(event) {
     if (!from_name || !reply_to || !subject || !message) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "Missing required fields" }),
+        body: JSON.stringify({ error: 'Missing required fields.' }),
       };
     }
 
-    // ✅ Load environment variables from Netlify dashboard
+    // ✅ Environment variables - set these in Netlify dashboard (Settings > Environment)
     const SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
     const TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
     const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
 
     if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      console.error("EmailJS credentials missing on server.");
+      console.error('EmailJS credentials are missing in environment variables.');
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: "Server configuration error" }),
+        body: JSON.stringify({ error: 'Server configuration error.' }),
       };
     }
 
-    // Send request directly to EmailJS REST API
-    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    // Send email via EmailJS REST API
+    const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         service_id: SERVICE_ID,
         template_id: TEMPLATE_ID,
@@ -54,21 +49,24 @@ export async function handler(event) {
       }),
     });
 
-    if (!response.ok) {
-      const text = await response.text();
-      console.error("EmailJS API error:", text);
-      throw new Error(text);
+    if (!emailResponse.ok) {
+      const text = await emailResponse.text();
+      console.error('EmailJS API error:', text);
+      return {
+        statusCode: emailResponse.status,
+        body: JSON.stringify({ error: 'EmailJS API error', details: text }),
+      };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ success: true, message: "Message!" }),
+      body: JSON.stringify({ success: true, message: 'Message sent successfully.' }),
     };
   } catch (err) {
-    console.error("Email send failed:", err);
+    console.error('Email send failed:', err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to send message." }),
+      body: JSON.stringify({ error: 'Failed to send message.', details: err.message }),
     };
   }
 }
