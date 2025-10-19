@@ -1,10 +1,7 @@
 // netlify/functions/sendEmail.js
-// ✅ Ready-to-deploy Netlify serverless function for EmailJS
+// ✅ Ready-to-deploy EmailJS relay for Netlify Node 18+ (Free version compatible)
+// - Uses native fetch (no node-fetch import)
 // - Improved error handling
-// - Environment variables securely loaded
-// - Returns JSON responses for frontend consumption
-
-import fetch from 'node-fetch';
 
 export async function handler(event) {
   if (event.httpMethod !== 'POST') {
@@ -24,20 +21,20 @@ export async function handler(event) {
       };
     }
 
-    // ✅ Environment variables - set these in Netlify dashboard (Settings > Environment)
+    // ✅ Environment variables: set these in Netlify dashboard (Settings > Environment)
     const SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
     const TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
     const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
 
     if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      console.error('EmailJS credentials are missing in environment variables.');
+      console.error('EmailJS credentials missing in Netlify env.');
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Server configuration error.' }),
       };
     }
 
-    // Send email via EmailJS REST API
+    // Send email via EmailJS REST API (Free version works the same)
     const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
