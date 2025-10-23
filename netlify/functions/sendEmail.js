@@ -1,9 +1,6 @@
 // /netlify/functions/sendEmail.js
 // ✅ Final Production-Safe EmailJS Netlify Function (Node 18+)
-// - Compatible with your Contact.jsx form
-// - Uses correct /email/send endpoint with proper key handling
-// - Automatic retry (exponential backoff)
-// - Clean, minimal logs for Netlify; sanitized responses for frontend
+// - FIX: Ensures PUBLIC_KEY is always included in the payload, even when using PRIVATE_KEY for V3/Strict Mode authentication.
 
 const EMAILJS_SEND_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
@@ -49,6 +46,7 @@ export async function handler(event) {
     const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
     const PRIVATE_KEY = process.env.EMAILJS_PRIVATE_KEY;
 
+    // Check configuration sanity
     if (!SERVICE_ID || !TEMPLATE_ID || (!PUBLIC_KEY && !PRIVATE_KEY)) {
       console.error("❌ EmailJS env misconfiguration:", {
         SERVICE_ID: !!SERVICE_ID,
@@ -71,9 +69,13 @@ export async function handler(event) {
       template_params: { from_name, reply_to, subject, message },
     };
 
+    // 💡 FIX APPLIED HERE:
+    // EmailJS V3/Strict Mode (Private Key) requires BOTH user_id and accessToken.
     if (isStrict) {
-      payload.accessToken = PRIVATE_KEY;
+      payload.user_id = PUBLIC_KEY;      // Must include Public Key (user_id)
+      payload.accessToken = PRIVATE_KEY; // And Private Key (accessToken)
     } else {
+      // Legacy V1 (Public Key only) requires user_id
       payload.user_id = PUBLIC_KEY;
     }
 
@@ -94,9 +96,10 @@ export async function handler(event) {
           body: JSON.stringify(payload),
         });
 
+        // The EmailJS API returns "OK" (String) on success, not JSON, so we use res.text()
         const text = await res.text();
 
-        if (res.ok) {
+        if (res.ok && text.trim() === "OK") { // Ensure success response is 'OK'
           console.log(`✅ Email sent successfully (attempt ${attempt}).`);
           return {
             statusCode: 200,
@@ -116,6 +119,7 @@ export async function handler(event) {
           continue;
         }
 
+        // Catch 4xx and non-retryable 5xx errors
         return {
           statusCode: 502,
           body: JSON.stringify({
