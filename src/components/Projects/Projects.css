@@ -1,234 +1,251 @@
 /* ===========================================================
-   Projects.css — Final Optimized Build (Oct 2025)
+   Projects.css — Refined Global-Themed Edition (v2.1)
    ===========================================================
-   ✨ Features:
-   - Two-image fade loop (8–12s range)
-   - Animation only runs when visible (via .in-view class)
-   - GPU-accelerated transitions
-   - Shimmer placeholder on load
-   - Fully responsive and accessibility-safe
+   🔥 Highlights:
+   - Unified global theme via CSS variables
+   - Subtle ambient glow + refined color balance
+   - Future-proof for dark/light theme expansion
+   - 100% layout & animation preserved
    =========================================================== */
+
+/* 🎨 Global Theming Variables */
+:root {
+  --bg-gradient: linear-gradient(180deg, #0f1017 0%, #131722 100%);
+  --surface-glass: rgba(255, 255, 255, 0.03);
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --text-primary: #f9fafc;
+  --text-secondary: #a9b3c9;
+  --text-muted: #7b8499;
+  --accent1: #06b6d4;  /* Cyan core */
+  --accent2: #8b5cf6;  /* Violet core */
+  --accent-gradient: linear-gradient(90deg, var(--accent1), var(--accent2));
+  --shadow-accent: 0 0 40px rgba(6, 182, 212, 0.2);
+  --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 12px 35px rgba(6, 182, 212, 0.25),
+                  0 0 45px rgba(139, 92, 246, 0.15);
+}
 
 /* 🌌 Section Layout */
 .projects-section {
-   padding: clamp(4rem, 6vw, 6rem) 1.5rem;
-   background: linear-gradient(180deg, #0f1017 0%, #131722 100%);
-   color: #e8ebf1;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   overflow-x: hidden;
- }
- 
- /* ✨ Title */
- .projects-title {
-   text-align: center;
-   font-size: clamp(2rem, 4vw, 2.8rem);
-   margin-bottom: 2.5rem;
-   font-weight: 700;
-   background: linear-gradient(90deg, #06b6d4, #8b5cf6);
-   -webkit-background-clip: text;
-   -webkit-text-fill-color: transparent;
- }
- 
- /* 📦 Grid Layout */
- .projects-container {
-   display: grid;
-   grid-template-columns: repeat(2, minmax(300px, 1fr));
-   gap: 2rem;
-   width: 100%;
-   max-width: 950px;
-   margin: 0 auto;
-   justify-items: center;
- }
- 
- /* 💠 Card Base */
- .project-card {
-   background: rgba(255, 255, 255, 0.03);
-   border: 1px solid rgba(255, 255, 255, 0.05);
-   border-radius: 1.25rem;
-   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-   overflow: hidden;
-   opacity: 0;
-   transform: translateY(30px);
-   transition: opacity 0.45s cubic-bezier(.2, .9, .2, 1),
-               transform 0.45s cubic-bezier(.2, .9, .2, 1);
-   will-change: transform, opacity;
-   width: 100%;
-   max-width: 440px;
- }
- 
- .project-card.visible {
-   opacity: 1;
-   transform: translateY(0);
- }
- 
- .project-card a {
-   display: flex;
-   flex-direction: column;
-   height: 100%;
-   text-decoration: none;
-   color: inherit;
- }
- 
- /* 🖼️ Image Container */
- .project-image {
-   position: relative;
-   width: 100%;
-   aspect-ratio: 16/9;
-   overflow: hidden;
-   background: linear-gradient(180deg, #0e1117, #1a1d25);
-   isolation: isolate;
- }
- 
- /* ⚡ Shimmer Placeholder */
- .project-image::before {
-   content: "";
-   position: absolute;
-   inset: 0;
-   background: linear-gradient(
-     110deg,
-     rgba(255, 255, 255, 0.05) 8%,
-     rgba(255, 255, 255, 0.12) 18%,
-     rgba(255, 255, 255, 0.05) 33%
-   );
-   background-size: 220% 100%;
-   animation: shimmer 1.4s linear infinite;
-   z-index: 1;
-   mix-blend-mode: overlay;
-   pointer-events: none;
- }
- 
- @keyframes shimmer {
-   0% { background-position-x: 0; }
-   100% { background-position-x: -220%; }
- }
- 
- /* 📸 Project Image */
- .project-thumb {
-   position: absolute;
-   inset: 0;
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-   opacity: 0;
-   transition: opacity 1.4s ease-in-out;
-   backface-visibility: hidden;
-   will-change: opacity, transform;
- }
- 
- /* 💫 Loaded Fade-In */
- .project-thumb.loaded {
-   opacity: 1;
- }
- 
- .project-thumb.loaded ~ .project-image::before {
-   opacity: 0;
-   visibility: hidden;
- }
- 
- /* 🎬 Dual Image Crossfade (paused until in-view) */
- .project-image.auto-cycle.in-view .project-thumb.fade:first-child {
-   animation: fadeCycle var(--cycle-duration, 10s) ease-in-out infinite;
-   animation-play-state: running;
- }
- 
- .project-image.auto-cycle.in-view .project-thumb.fade:last-child {
-   animation: fadeCycle var(--cycle-duration, 11s) ease-in-out infinite reverse;
-   animation-play-state: running;
- }
- 
- /* 💤 Paused by default (offscreen) */
- .project-image.auto-cycle .project-thumb.fade {
-   animation-play-state: paused;
- }
- 
- /* 🎞️ Smooth, slower loop for realism */
- @keyframes fadeCycle {
-   0%, 47% { opacity: 1; }
-   50%, 97% { opacity: 0; }
-   100% { opacity: 1; }
- }
- 
- /* 🎲 Random duration per card for dynamic variation */
- .project-card:nth-child(1) .project-image { --cycle-duration: 11s; }
- .project-card:nth-child(2) .project-image { --cycle-duration: 13s; }
- .project-card:nth-child(3) .project-image { --cycle-duration: 15s; }
- .project-card:nth-child(4) .project-image { --cycle-duration: 17s; }
- 
- /* ✨ Hover Lift */
- .project-card:hover,
- .project-card:focus-within {
-   box-shadow: 0 12px 35px rgba(6, 182, 212, 0.25),
-               0 0 40px rgba(139, 92, 246, 0.1);
-   transform: translateY(-6px);
- }
- 
- /* 🧠 Text Content */
- .project-content {
-   flex: 1;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   padding: 1.5rem 1.25rem;
-   text-align: left;
- }
- 
- .project-content h3 {
-   font-size: 1.25rem;
-   font-weight: 600;
-   margin-bottom: 0.6rem;
-   color: #f9fafc;
-   letter-spacing: 0.4px;
- }
- 
- .project-content p {
-   font-size: 0.95rem;
-   color: #a9b3c9;
-   line-height: 1.55;
-   margin-bottom: 1.25rem;
- }
- 
- /* 🧩 Tech Stack Badges */
- .tech-stack {
-   display: flex;
-   flex-wrap: wrap;
-   gap: 0.5rem;
- }
- 
- .tech-badge {
-   background: linear-gradient(90deg, #06b6d4, #8b5cf6);
-   color: #fff;
-   font-size: 0.75rem;
-   font-weight: 500;
-   padding: 0.4rem 0.75rem;
-   border-radius: 999px;
-   box-shadow: 0 0 8px rgba(6, 182, 212, 0.3);
-   transition: transform 0.28s cubic-bezier(.2, .9, .2, 1),
-               box-shadow 0.28s cubic-bezier(.2, .9, .2, 1);
- }
- 
- .tech-badge:hover {
-   transform: translateY(-2px);
-   box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
- }
- 
- /* 📱 Responsive */
- @media (max-width: 880px) {
-   .projects-container {
-     grid-template-columns: 1fr;
-     max-width: 95%;
-   }
- }
- 
- /* 🦋 Reduced Motion */
- @media (prefers-reduced-motion: reduce) {
-   *,
-   *::before,
-   *::after {
-     animation: none !important;
-     transition: none !important;
-   }
- }
- 
+  padding: clamp(4rem, 6vw, 6rem) 1.5rem;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 🌫️ Subtle Ambient Overlay */
+.projects-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    80% 60% at 50% 10%,
+    rgba(139, 92, 246, 0.05),
+    transparent 70%
+  );
+  z-index: 0;
+}
+
+/* ✨ Title */
+.projects-title {
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.3px;
+}
+
+/* 📦 Grid Layout */
+.projects-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  justify-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* 💠 Card Base */
+.project-card {
+  background: var(--surface-glass);
+  border: 1px solid var(--border-soft);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.45s cubic-bezier(.2, .9, .2, 1),
+              transform 0.45s cubic-bezier(.2, .9, .2, 1),
+              box-shadow 0.3s ease;
+  will-change: transform, opacity;
+  width: 100%;
+  max-width: 440px;
+  backdrop-filter: blur(10px);
+}
+
+/* ✅ Fade In */
+.project-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 🪶 Hover / Focus Elevation */
+.project-card:hover,
+.project-card:focus-within {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-6px);
+}
+
+/* 🖼️ Image Container */
+.project-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: linear-gradient(180deg, #0e1117, #1a1d25);
+  isolation: isolate;
+}
+
+/* ⚡ Shimmer Placeholder */
+.project-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.05) 8%,
+    rgba(255, 255, 255, 0.12) 18%,
+    rgba(255, 255, 255, 0.05) 33%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+  z-index: 1;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { background-position-x: 0; }
+  100% { background-position-x: -220%; }
+}
+
+/* 📸 Project Image */
+.project-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transition: opacity 1.4s ease-in-out;
+  backface-visibility: hidden;
+}
+
+/* 💫 Image Load Reveal */
+.project-thumb.loaded {
+  opacity: 1;
+}
+
+.project-thumb.loaded ~ .project-image::before {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 🎬 Dual Image Crossfade (paused until in-view) */
+.project-image.auto-cycle.in-view .project-thumb.fade:first-child {
+  animation: fadeCycle var(--cycle-duration, 10s) ease-in-out infinite;
+  animation-play-state: running;
+}
+.project-image.auto-cycle.in-view .project-thumb.fade:last-child {
+  animation: fadeCycle var(--cycle-duration, 11s) ease-in-out infinite reverse;
+  animation-play-state: running;
+}
+.project-image.auto-cycle .project-thumb.fade {
+  animation-play-state: paused;
+}
+
+@keyframes fadeCycle {
+  0%, 47% { opacity: 1; }
+  50%, 97% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* 🧠 Text Content */
+.project-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1.25rem;
+  text-align: left;
+  position: relative;
+}
+
+.project-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: var(--text-primary);
+  letter-spacing: 0.4px;
+}
+
+.project-content p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+/* 🧩 Tech Stack Badges */
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-badge {
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.25);
+  transition: transform 0.28s cubic-bezier(.2, .9, .2, 1),
+              box-shadow 0.28s cubic-bezier(.2, .9, .2, 1);
+}
+
+.tech-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+}
+
+/* 📱 Responsive */
+@media (max-width: 880px) {
+  .projects-container {
+    grid-template-columns: 1fr;
+    max-width: 95%;
+  }
+}
+
+/* 🦋 Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

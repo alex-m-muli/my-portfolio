@@ -1,69 +1,84 @@
 // netlify/functions/sendEmail.js
-// ✅ Ready-to-deploy EmailJS relay for Netlify Node 18+ (Free version compatible)
-// - Uses native fetch (no node-fetch import)
-// - Improved error handling
+// ✅ Secure EmailJS serverless function (Node.js)
+// - Uses PRIVATE_KEY from Netlify environment variables
+// - Keeps credentials hidden from frontend
+// - Validates input before sending
+// - Returns structured JSON responses
 
-export async function handler(event) {
-  if (event.httpMethod !== 'POST') {
+import fetch from "node-fetch";
+
+export const handler = async (event) => {
+  if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: 'Method Not Allowed. Use POST.' }),
+      body: JSON.stringify({ error: "Method Not Allowed" }),
     };
   }
 
   try {
-    const { from_name, reply_to, subject, message } = JSON.parse(event.body);
+    const data = JSON.parse(event.body || "{}");
+    const { from_name, reply_to, subject, message } = data;
 
+    // 🧩 Basic validation
     if (!from_name || !reply_to || !subject || !message) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Missing required fields.' }),
+        body: JSON.stringify({ error: "Missing required fields." }),
       };
     }
 
-    // ✅ Environment variables: set these in Netlify dashboard (Settings > Environment)
-    const SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
-    const TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
-    const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
+    // 🗝️ Load secure environment variables
+    const serviceID = process.env.EMAILJS_SERVICE_ID;
+    const templateID = process.env.EMAILJS_TEMPLATE_ID;
+    const privateKey = process.env.EMAILJS_PRIVATE_KEY;
 
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      console.error('EmailJS credentials missing in Netlify env.');
+    if (!serviceID || !templateID || !privateKey) {
+      console.error("Missing EmailJS environment variables.");
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Server configuration error.' }),
+        body: JSON.stringify({ error: "Server misconfiguration." }),
       };
     }
 
-    // Send email via EmailJS REST API (Free version works the same)
-    const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    // 📦 EmailJS API request (Server-to-Server)
+    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${privateKey}`, // Securely authorize
+      },
       body: JSON.stringify({
-        service_id: SERVICE_ID,
-        template_id: TEMPLATE_ID,
-        user_id: PUBLIC_KEY,
-        template_params: { from_name, reply_to, subject, message },
+        service_id: serviceID,
+        template_id: templateID,
+        user_id: "private_key_mode", // not required in private key mode
+        template_params: {
+          from_name,
+          reply_to,
+          subject,
+          message,
+        },
       }),
     });
 
-    if (!emailResponse.ok) {
-      const text = await emailResponse.text();
-      console.error('EmailJS API error:', text);
+    const result = await response.text();
+
+    if (response.ok) {
       return {
-        statusCode: emailResponse.status,
-        body: JSON.stringify({ error: 'EmailJS API error', details: text }),
+        statusCode: 200,
+        body: JSON.stringify({ success: true, result }),
+      };
+    } else {
+      console.error("EmailJS error:", result);
+      return {
+        statusCode: response.status,
+        body: JSON.stringify({ error: result }),
       };
     }
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true, message: 'Message sent successfully.' }),
-    };
   } catch (err) {
-    console.error('Email send failed:', err);
+    console.error("Function error:", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to send message.', details: err.message }),
+      body: JSON.stringify({ error: "Internal Server Error" }),
     };
   }
-}
+};

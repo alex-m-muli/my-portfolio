@@ -1,16 +1,21 @@
 /* ===============================================================
-   src/components/About/About.css — Final Build (Crossfade Avatars)
+   src/components/About/About.css — Final Build (Reimagined Theme)
    =============================================================== */
 
    :root {
-    --about-accent-a: #6f43ff;
-    --about-accent-b: #4fc3f7;
-    --about-accent-c: #00c48a;
-    --about-bg-top: rgba(12, 12, 60, 0.92);
-    --about-bg-mid: rgba(16, 35, 84, 0.95);
-    --about-bg-bottom: rgba(232, 238, 245, 0.98);
-    --about-text: #0c1cb8;
-    --about-muted: #1f2937;
+    /* Brand accents — consistent with Projects.css */
+    --about-accent-a: #06b6d4;
+    --about-accent-b: #8b5cf6;
+    --about-accent-c: #22d3ee;
+  
+    /* Backgrounds — deep cosmic gradient */
+    --about-bg-top: #0f1017;
+    --about-bg-mid: #12141e;
+    --about-bg-bottom: #1a1f2b;
+  
+    /* Text colors — high contrast */
+    --about-text: #f9fafc;
+    --about-muted: #a9b3c9;
   }
   
   /* Section */
@@ -18,9 +23,9 @@
     padding: 6rem 2rem;
     background: linear-gradient(
       180deg,
-      rgb(4, 17, 44) 0%,
-      rgb(247, 247, 247) 50%,
-      rgb(34, 34, 68) 110%
+      var(--about-bg-top) 0%,
+      var(--about-bg-mid) 50%,
+      var(--about-bg-bottom) 100%
     );
     color: var(--about-text);
     text-align: center;
@@ -34,11 +39,15 @@
   .about-title {
     font-size: 2.6rem;
     font-weight: 700;
-    color: hsl(187, 100%, 50%);
+    color: var(--about-text);
     margin-bottom: 2.6rem;
     letter-spacing: 0.4px;
+    background: linear-gradient(90deg, var(--about-accent-a), var(--about-accent-b));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     animation: fadeInUp 1s ease both;
   }
+  
   .about-title::after {
     content: "";
     display: block;
@@ -62,7 +71,7 @@
     z-index: 1;
   }
   
-  /* Avatar Container (Crossfade Layering) */
+  /* Avatar Container */
   .about-avatar {
     margin-top: 3.6rem;
     flex: -20 0 300px;
@@ -84,8 +93,8 @@
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid rgba(9, 187, 241, 0.993);
-    box-shadow: 0 10px 30px rgba(235, 63, 63, 0.932);
+    border: 2px solid rgba(139, 92, 246, 0.6);
+    box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
     opacity: 0;
     transform: scale(1.05) translateZ(0);
     transition:
@@ -97,7 +106,7 @@
     backface-visibility: hidden;
   }
   
-  /* Active vs Inactive Crossfade */
+  /* Crossfade */
   .about-avatar img.active {
     opacity: 1;
     transform: scale(1);
@@ -113,8 +122,8 @@
   .about-avatar:hover img.active,
   .about-avatar:focus img.active {
     transform: scale(1.04);
-    box-shadow: 0 18px 44px rgba(2, 6, 23, 0.36);
-    border-color: rgba(79, 195, 247, 0.22);
+    box-shadow: 0 18px 44px rgba(139, 92, 246, 0.3);
+    border-color: rgba(6, 182, 212, 0.4);
   }
   
   /* Content */
@@ -128,7 +137,7 @@
   .about-heading {
     font-size: 1.78rem;
     font-weight: 600;
-    color: #08205a;
+    color: var(--about-text);
     margin-bottom: 1.1rem;
   }
   
@@ -137,13 +146,13 @@
     line-height: 1.78;
     color: var(--about-muted);
     margin-bottom: 2.2rem;
-    opacity: 0.98;
+    opacity: 0.95;
   }
   .about-description strong {
-    color: #06204f;
+    color: #ffffff;
   }
   .about-description em {
-    color: var(--about-accent-b);
+    color: var(--about-accent-a);
     font-weight: 500;
     font-style: normal;
   }
@@ -155,32 +164,41 @@
     flex-wrap: wrap;
     gap: 1.6rem;
   }
+  
   .stat-card {
     flex: 1 1 160px;
-    background: linear-gradient(180deg, rgba(8, 102, 224, 0.98), rgba(186, 4, 231, 0.94));
+    background: linear-gradient(
+      180deg,
+      rgba(6, 182, 212, 0.15),
+      rgba(139, 92, 246, 0.15)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 1.4rem 1.1rem;
     text-align: center;
-    box-shadow: 0 8px 18px rgba(5, 84, 255, 0.06);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
     transition: transform 260ms cubic-bezier(.2,.9,.3,1), box-shadow 260ms ease;
     cursor: default;
   }
+  
   .stat-card:hover,
   .stat-card:focus {
     transform: translateY(-8px);
-    box-shadow: 0 14px 34px rgba(233, 116, 7, 0.486);
+    box-shadow: 0 14px 34px rgba(6, 182, 212, 0.25);
     outline: none;
   }
+  
   .stat-card h4 {
     font-size: 1.9rem;
     font-weight: 800;
-    color: #1af107ea;
+    color: #06b6d4;
     margin-bottom: 0.25rem;
   }
+  
   .stat-card p {
     font-size: 1rem;
     font-weight: 600;
-    color: #10203a;
+    color: #f9fafc;
   }
   
   /* Animations */
@@ -194,6 +212,7 @@
       transform: translateY(0);
     }
   }
+  
   @keyframes fadeInUp {
     from {
       opacity: 0;
