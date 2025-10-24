@@ -191,7 +191,7 @@ const Testimonials = () => {
         content="Discover what clients and engineers say about Alex M. Muli — building global-quality digital solutions."
       />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/#testimonials" />
       <meta property="og:image" content="https://iconicglobaltech.netlify.app/og-preview.png" />
       <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
       <meta property="og:site_name" content="Alex M. Muli Portfolio" />

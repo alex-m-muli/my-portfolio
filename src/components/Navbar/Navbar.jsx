@@ -109,7 +109,7 @@ const Navbar = React.memo(() => {
         name="keywords"
         content="Alex, portfolio, fullstack developer, React, Node.js, AI engineer, software engineer"
       />
-      <link rel="canonical" href="https://iconicglobaltech.netlify.app/" />
+      <link rel="canonical" href="https://iconicglobaltech.netlify.app/#navbar" />
 
       {/* Open Graph */}
       <meta property="og:title" content="Alex — Fullstack Developer Portfolio" />

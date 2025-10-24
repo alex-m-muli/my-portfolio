@@ -144,7 +144,7 @@ const Experience = () => {
         content="A decade of impactful software development — scalable systems, data analytics, and elegant engineering across global firms."
       />
       <meta property="og:image" content="https://iconicglobaltech.netlify.app/og-preview.png" />
-      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/#experience" />
       <meta property="og:site_name" content="Alex M. Muli Portfolio" />
       <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
       <meta name="twitter:card" content="summary_large_image" />

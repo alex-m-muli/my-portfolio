@@ -1,32 +1,34 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- ✅ Essential Meta -->
+    <!-- ✅ Character Encoding & Viewport -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ✅ SEO Essentials -->
+    <title>Alex M. Muli — Fullstack Software Engineer | AI/ML Specialist</title>
     <meta
       name="description"
-      content="Portfolio of Alex M. Muli — Fullstack Software Engineer | AI/ML Specialist. Explore projects, skills, and experience in modern web and AI development."
+      content="Portfolio of Alex M. Muli — Fullstack Software Engineer & AI/ML Specialist. Explore projects, skills, and experience in modern web and AI development."
     />
     <meta
       name="keywords"
       content="Alex Muli, Fullstack Engineer, Software Developer, React, Node.js, Machine Learning, AI Engineer, Portfolio"
     />
     <meta name="author" content="Alex M. Muli" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://iconicglobaltech.netlify.app/" />
 
-    <!-- ✅ Title -->
-    <title>Alex M. Muli — Fullstack Software Engineer | AI/ML Specialist</title>
-
-    <!-- ✅ Favicons -->
+    <!-- ✅ Favicons & App Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="/favicon-512x512.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- ✅ Theme & Browser UI Color -->
+    <!-- ✅ Theme & Browser UI Colors -->
     <meta name="theme-color" content="#007bff" />
     <meta name="msapplication-TileColor" content="#007bff" />
 
-    <!-- ✅ Open Graph (Updated Canonical URLs) -->
+    <!-- ✅ Open Graph Meta (Social Sharing) -->
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
@@ -44,7 +46,7 @@
     <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
     <meta property="og:site_name" content="Alex M. Muli Portfolio" />
 
-    <!-- ✅ Twitter Card (Updated Canonical URLs) -->
+    <!-- ✅ Twitter Card Meta -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
@@ -59,28 +61,39 @@
       content="https://iconicglobaltech.netlify.app/og-preview.png"
     />
 
-    <!-- ✅ Preload Fonts & Performance -->
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
+    <!-- ✅ Preload Fonts for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
 
-    <!-- ✅ Manifest (for PWA/Install support) -->
+    <!-- ✅ Manifest (PWA / Install Support) -->
     <link rel="manifest" href="/manifest.json" />
+
+    <!-- ✅ Structured Data for Rich Search (JSON-LD Schema) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Alex M. Muli",
+        "jobTitle": "Fullstack Software Engineer & AI/ML Specialist",
+        "url": "https://iconicglobaltech.netlify.app/",
+        "image": "https://iconicglobaltech.netlify.app/og-preview.png",
+        "sameAs": [
+          "https://github.com/alexmuli",
+          "https://www.linkedin.com/in/alexmuli/"
+        ],
+        "description": "Fullstack & AI Engineer building intelligent, scalable software solutions."
+      }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
+
+    <!-- ✅ Entry Point -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

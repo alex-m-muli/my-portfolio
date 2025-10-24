@@ -69,7 +69,7 @@ const About = () => {
       />
       <link
         rel="canonical"
-        href="https://iconicglobaltech.netlify.app/about"
+        href="https://iconicglobaltech.netlify.app/#about"
       />
 
       <h2 id="about-title" className="about-title">

@@ -1,34 +1,50 @@
 {
-  "name": "Alex M. Muli Portfolio",
-  "short_name": "AlexMuli",
-  "description": "Portfolio of Alex M. Muli — Fullstack Software Engineer and AI/ML Specialist.",
+  "name": "Alex M. Muli — Fullstack Software Engineer | AI/ML Specialist",
+  "short_name": "Alex Muli",
+  "description": "Portfolio of Alex M. Muli — Fullstack Software Engineer & AI/ML Specialist. Explore projects, skills, and experience in modern web and AI development.",
   "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0f1729",
-  "theme_color": "#0f1729",
-  "orientation": "portrait",
   "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1729",
+  "theme_color": "#007bff",
+  "categories": ["portfolio", "software", "developer", "technology"],
   "icons": [
-  {
-  "src": "/favicon-16x16.png",
-  "sizes": "16x16",
-  "type": "image/png"
-  },
-  {
-  "src": "/favicon-32x32.png",
-  "sizes": "32x32",
-  "type": "image/png"
-  },
-  {
-  "src": "/apple-touch-icon.png",
-  "sizes": "180x180",
-  "type": "image/png"
-  },
-  {
-  "src": "/favicon-512x512.png",
-  "sizes": "512x512",
-  "type": "image/png",
-  "purpose": "any maskable"
-  }
-  ]
-  }
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Projects",
+      "short_name": "Projects",
+      "url": "/#projects",
+      "description": "Explore my latest web and AI projects"
+    },
+    {
+      "name": "Contact Me",
+      "short_name": "Contact",
+      "url": "/#contact",
+      "description": "Get in touch for collaboration or hiring"
+    }
+  ],
+  "id": "/"
+}

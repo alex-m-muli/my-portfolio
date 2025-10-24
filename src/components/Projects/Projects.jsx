@@ -136,7 +136,7 @@ const Projects = () => {
         content="Showcasing cutting-edge projects by Alex M. Muli, a world-class fullstack and AI engineer."
       />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/#projects" />
       <meta
         property="og:image"
         content="https://iconicglobaltech.netlify.app/og-preview.png"

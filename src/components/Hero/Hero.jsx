@@ -188,7 +188,7 @@ export default function Hero() {
       <meta property="og:type" content="website" />
       <meta property="og:title" content="Alex M. Muli — Fullstack Software Engineer" />
       <meta property="og:description" content="Building production-grade web apps and AI solutions. View projects and contact for collaboration." />
-      <meta property="og:url" content="https://iconicglobaltech.netlify.app/" />
+      <meta property="og:url" content="https://iconicglobaltech.netlify.app/#hero" />
       <meta property="og:image" content="https://iconicglobaltech.netlify.app/og-preview.png" />
       <meta property="og:site_name" content="Alex M. Muli Portfolio" />
       <meta property="og:image:alt" content="Alex M. Muli Portfolio Preview" />
