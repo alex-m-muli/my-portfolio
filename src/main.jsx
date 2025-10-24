@@ -3,7 +3,7 @@
 // - Updated for React 19: Removed HelmetProvider (no longer needed).
 // - Added Service Worker registration for offline support and PWA install.
 // - Global CSS imported.
-// - Maintains all functionality and structure.
+// - Maintains all functionality and structure..
 
 import React from "react";
 import ReactDOM from "react-dom/client";
